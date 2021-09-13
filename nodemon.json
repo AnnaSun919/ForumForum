@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_USER": "annasun",
+    "MONGO_PASSWORD": "movieMOVIE",
+    "MONGO_DB": "Moviemovie"
+  }
+}
