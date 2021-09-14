@@ -6,27 +6,29 @@ const bodyParser = require("body-parser");
 const { graphqlHTTP } = require("express-graphql");
 const mongoose = require("mongoose");
 const graQLSchema = require("./graphql/schema/index");
+const graQLRoot = require("./graphql/resolver/auth");
 
 const app = express();
-
-const users = [];
+app.use(bodyParser.json());
+const topics = [];
 
 app.use(
   "/graphql",
   graphqlHTTP({
     schema: graQLSchema,
     rootValue: {
-      users: () => {
-        return users;
+      ...graQLRoot,
+      topics: () => {
+        return topics;
       },
-      createUser: (args) => {
-        const user = {
+      createTopic: (args) => {
+        const topic = {
           _id: Math.random().toString(),
-          email: args.userInput.email,
-          password: args.userInput.password,
+          title: args.topicInput.title,
+          description: args.topicInput.description,
         };
-        users.push(user);
-        return user;
+        topics.push(topic);
+        return topic;
       },
     },
     graphiql: true,
