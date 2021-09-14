@@ -26,6 +26,8 @@ module.exports = buildSchema(`
     description: String!
   }
 
+
+
   input UserInput {
     username: String!
     password : String!
@@ -34,13 +36,16 @@ module.exports = buildSchema(`
   type RootQuery {
     users: [User]!
     topics: [Topic]!
-    login(email: String!, password: String!): AuthData!
+    login(username: String!, password: String!): AuthData!
    }
 
   type RootMutation{
     createTopic(topicInput : TopicInput): Topic
     createUser(userInput : UserInput): User
     deleteTopic(topicId: ID!) : Topic!
+    editTopic(topicId:ID!,topicInput:TopicInput!): Topic!
+
+
   }
   
   schema{
