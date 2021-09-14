@@ -9,9 +9,11 @@ const graQLSchema = require("./graphql/schema/index");
 const graQLAuth = require("./graphql/resolver/auth");
 const graQLTopic = require("./graphql/resolver/topic");
 
+const checkAuth = require("./graphql/middleware/checkAuth");
+
 const app = express();
 app.use(bodyParser.json());
-const topics = [];
+app.use(checkAuth);
 
 app.use(
   "/graphql",
@@ -37,7 +39,7 @@ mongoose
     `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.tslo0.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
   )
   .then(() => {
-    app.listen(3000);
+    app.listen(5000);
   })
   .catch((err) => {
     console.log(err);

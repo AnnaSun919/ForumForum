@@ -39,7 +39,7 @@ module.exports = {
   },
   login: async (args) => {
     const user = await User.findOne({ username: args.username });
-    console.log(user);
+
     if (!user) {
       throw new Error("User doesn't exist");
     }

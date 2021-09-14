@@ -1,7 +1,10 @@
 const Topic = require("../model/topic");
 
 module.exports = {
-  createTopic: (args) => {
+  createTopic: (args, req) => {
+    if (!req.checkAuth) {
+      throw new Error("unauthenticated");
+    }
     const topic = new Topic({
       title: args.topicInput.title,
       description: args.topicInput.description,
