@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import AuthContext from "../context/authcontext";
 
 function Topic() {
-  const contextType = AuthContext;
+  const context = useContext(AuthContext);
 
-  console.log(contextType);
+  const [isCreating, setCreating] = useState(false);
+
+  function createTopic() {
+    setCreating(true);
+  }
+
   return (
-    <div>
-      <h1>home</h1>
-    </div>
+    <>
+      <div>
+        <h1>home</h1>
+        <button onClick={createTopic}>Create Topic </button>
+        {isCreating && <form>Hello</form>}
+      </div>
+    </>
   );
 }
 

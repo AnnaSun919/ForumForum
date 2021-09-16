@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import authContext from "../context/authcontext";
+import "./Auth.css";
 
 function Auth(props) {
-  let context = useContext(authContext);
+  const context = useContext(authContext);
 
   function submitHandler(event) {
     event.preventDefault();
@@ -59,17 +60,14 @@ function Auth(props) {
       })
       .then((resData) => {
         if (resData.data.login.token) {
-          if (resData.data.login.token) {
-            context.login(resData.data.login.token, resData.data.login.userId);
-          }
+          context.login(resData.data.login.token, resData.data.login.userId);
         }
-        console.log(context);
       })
-
       .catch((err) => {
         console.log(err);
       });
   }
+  console.log(context.token);
 
   return (
     <div>
@@ -79,6 +77,7 @@ function Auth(props) {
           <input name="username" />
         </div>
         <div className="form-control">
+          <label htmlFor="username">password</label>
           <input name="password" type="password" />
         </div>
 
