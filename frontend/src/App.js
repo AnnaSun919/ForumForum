@@ -4,9 +4,9 @@ import AuthPage from "./pages/Auth";
 import Home from "./pages/Topic";
 import Authcontext from "./context/authcontext";
 import React, { useState } from "react";
-import Navbar from "./component/Navbar";
-import NavItem from "./component/NavItem";
-import DropdownMenu from "./component/DropdownMenu";
+import Navbar from "./component/NavBar/Navbar";
+import NavItem from "./component/NavBar/NavItem";
+import DropdownMenu from "./component/NavBar/DropdownMenu";
 
 function App() {
   const [token, setToken] = useState(null);

@@ -1,19 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/authcontext";
-
+import Backdrop from "../component/BackDrop/BackDrop";
+import "./Topic.css";
 function Topic() {
   const context = useContext(AuthContext);
 
   const [isCreating, setCreating] = useState(false);
   const [posts, setContent] = useState([]);
 
+  const [isDeleting, setDeleting] = useState(false);
+
+  //to loan all posts
+  useEffect(() => {
+    fetchTopic();
+  }, []);
+
+  //function to show create post form
   function createTopic() {
     setCreating((prevState) => {
-      console.log(prevState);
       return !prevState;
     });
   }
 
+  function deleteTopic() {
+    setDeleting((prevState) => {
+      return !prevState;
+    });
+  }
+
+  //function to sumbit and create a new post
   function sumbitPost(event) {
     event.preventDefault();
 
@@ -32,7 +47,6 @@ function Topic() {
               _id
               title
               description
-          
             }
           }
         `,
@@ -64,10 +78,7 @@ function Topic() {
       });
   }
 
-  useEffect(() => {
-    fetchTopic();
-  }, []);
-
+  //function to get posts from database
   function fetchTopic() {
     const requestBody = {
       query: `query {
@@ -102,6 +113,8 @@ function Topic() {
       });
   }
 
+  console.log(isCreating);
+
   return (
     <>
       <div>
@@ -109,19 +122,24 @@ function Topic() {
         <button className="btn" onClick={createTopic}>
           Create new post
         </button>
-        {isCreating && (
-          <form onSubmit={sumbitPost}>
-            <label htmlFor="title">Title</label>
-            <input name="title" />
 
-            <label htmlFor="description">Description</label>
-            <input name="description" />
-            <button className="btn">Submit</button>
-            <button className="btn" type="button" onClick={createTopic}>
-              Cancel
-            </button>
-          </form>
+        {isCreating && (
+          <>
+            <form className="addPost" onSubmit={sumbitPost}>
+              <label htmlFor="title">Title</label>
+              <input name="title" />
+
+              <label htmlFor="description">Description</label>
+              <input name="description" />
+              <button className="btn">Submit</button>
+              <button className="btn" type="button" onClick={createTopic}>
+                Cancel
+              </button>
+            </form>
+          </>
         )}
+
+        {isCreating && <Backdrop onCreate={createTopic}></Backdrop>}
 
         <div>
           {posts.map((post) => (
@@ -132,10 +150,16 @@ function Topic() {
                   <br />
                   Description: {post.description}
                 </span>
+
+                <button onClick={deleteTopic}>Delete</button>
               </div>
             </>
           ))}
         </div>
+
+        {isDeleting && (
+          <form>Are you sure that you want to Delete this post?</form>
+        )}
       </div>
     </>
   );
