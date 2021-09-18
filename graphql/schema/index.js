@@ -43,8 +43,8 @@ module.exports = buildSchema(`
   }
 
   type RootQuery {
-    users: [User]!
-    topics: [Topic]!
+    users: [User!]!
+    posts: [Topic!]!
     login(username: String!, password: String!): AuthData!
    }
 

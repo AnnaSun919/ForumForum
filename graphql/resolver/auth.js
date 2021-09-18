@@ -54,4 +54,12 @@ module.exports = {
     );
     return { userId: user.id, token: token, tokenExpiration: 1 };
   },
+  users: async (args, req) => {
+    try {
+      const users = await User.find({ user: req.userId });
+      return users;
+    } catch (err) {
+      throw err;
+    }
+  },
 };

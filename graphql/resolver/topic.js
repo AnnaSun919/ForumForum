@@ -36,4 +36,12 @@ module.exports = {
       throw err;
     }
   },
+  posts: async (args, req) => {
+    try {
+      const topics = await Topic.find({});
+      return topics;
+    } catch (err) {
+      throw err;
+    }
+  },
 };
