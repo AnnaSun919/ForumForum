@@ -1,1 +1,9 @@
-Forumforum is a platform created by using GraphQL
+Forumforum
+
+Description
+
+MVP Scope and User stories
+
+Backlog
+
+Models
