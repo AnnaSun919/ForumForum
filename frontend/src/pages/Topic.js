@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/authcontext";
+
 import Backdrop from "../component/BackDrop/BackDrop";
 import "./Topic.css";
+
 function Topic() {
   const context = useContext(AuthContext);
 
@@ -119,9 +121,12 @@ function Topic() {
     <>
       <div>
         <h1>home</h1>
+
         <button className="btn" onClick={createTopic}>
-          Create new post
+          +
         </button>
+
+        {isCreating && <Backdrop onCreate={createTopic}></Backdrop>}
 
         {isCreating && (
           <>
@@ -139,8 +144,6 @@ function Topic() {
           </>
         )}
 
-        {isCreating && <Backdrop onCreate={createTopic}></Backdrop>}
-
         <div>
           {posts.map((post) => (
             <>
@@ -157,8 +160,14 @@ function Topic() {
           ))}
         </div>
 
+        {isDeleting && <Backdrop onCreate={deleteTopic}></Backdrop>}
+
         {isDeleting && (
-          <form>Are you sure that you want to Delete this post?</form>
+          <form className="addPost">
+            Are you sure that you want to Delete this post?
+            <button className="btn">Yes</button>
+            <button className="btn">Cancel</button>
+          </form>
         )}
       </div>
     </>
