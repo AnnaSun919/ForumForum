@@ -166,7 +166,6 @@ function Topic() {
           <form className="addPost">
             Are you sure that you want to Delete this post?
             <button className="btn">Yes</button>
-            <button className="btn">Cancel</button>
           </form>
         )}
       </div>
