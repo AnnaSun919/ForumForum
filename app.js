@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const graQLSchema = require("./graphql/schema/index");
 const graQLAuth = require("./graphql/resolver/auth");
 const graQLTopic = require("./graphql/resolver/topic");
+const graQLComment = require("./graphql/resolver/comment");
 
 const checkAuth = require("./graphql/middleware/checkAuth");
 
@@ -32,9 +33,13 @@ app.use(
     rootValue: {
       ...graQLAuth,
       ...graQLTopic,
+      ...graQLComment,
       topics: () => {
         return topics;
       },
+      // comments: () => {
+      //   return comments;
+      // },
     },
     graphiql: true,
   })

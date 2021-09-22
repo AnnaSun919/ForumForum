@@ -17,8 +17,8 @@ module.exports = buildSchema(`
 
   type Comment{
     _id:ID!
-    comment: String!
-    topic: Topic!
+    topicComment: String!
+    realtedtopic: Topic!
     creater:User!
   }
 
@@ -29,7 +29,7 @@ module.exports = buildSchema(`
   }
 
   input CommentInput{
-    comment: String!
+    topicComment: String!
   }
 
   input TopicInput{
@@ -45,6 +45,7 @@ module.exports = buildSchema(`
   type RootQuery {
     users: [User!]!
     posts: [Topic!]!
+    comments : [Comment!]
     login(username: String!, password: String!): AuthData!
    }
 

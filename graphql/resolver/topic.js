@@ -8,6 +8,7 @@ module.exports = {
     const topic = new Topic({
       title: args.topicInput.title,
       description: args.topicInput.description,
+      creater: req.userId,
     });
     return topic.save();
   },
