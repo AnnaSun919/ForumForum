@@ -7,10 +7,9 @@ import "./Topic.css";
 function Topic() {
   const context = useContext(AuthContext);
 
-  const [isCreating, setCreating] = useState(false);
+  const [presentForm, setForm] = useState(null);
   const [posts, setContent] = useState([]);
-
-  const [isDeleting, setDeleting] = useState(false);
+  const [selectedPostId, setselectedPostId] = useState(null);
 
   //to loan all posts
   useEffect(() => {
@@ -18,16 +17,15 @@ function Topic() {
   }, []);
 
   //function to show create post form
-  function createTopic() {
-    setCreating((prevState) => {
+  function showForm() {
+    setForm((prevState) => {
       return !prevState;
     });
   }
 
-  function deleteTopic() {
-    setDeleting((prevState) => {
-      return !prevState;
-    });
+  function comment(event) {
+    event.preventDefault();
+    console.log(event);
   }
 
   //function to sumbit and create a new post
@@ -72,7 +70,7 @@ function Topic() {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Failed!");
         }
-        setCreating(false);
+        setForm(false);
         return res.json();
       })
       .catch((err) => {
@@ -115,20 +113,57 @@ function Topic() {
       });
   }
 
-  console.log(isCreating);
+  //function to delete post
+
+  function deletepost() {
+    const postId = selectedPostId;
+    let requestBody = {
+      query: `mutation 
+        DeleteTopic($topicId: ID!) {
+        deleteTopic(topicId: $topicId){
+          _id
+          title
+        }}`,
+      variables: {
+        topicId: postId,
+      },
+    };
+
+    fetch("http://localhost:5000/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed!");
+        }
+        return res.json();
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
 
   return (
     <>
       <div>
         <h1>home</h1>
 
-        <button className="btn" onClick={createTopic}>
+        <button
+          className="btn"
+          onClick={() => {
+            setForm("create");
+          }}
+        >
           +
         </button>
 
-        {isCreating && <Backdrop onCreate={createTopic}></Backdrop>}
+        {presentForm === "create" && <Backdrop onCreate={showForm}></Backdrop>}
 
-        {isCreating && (
+        {presentForm && (
           <>
             <form className="addPost" onSubmit={sumbitPost}>
               <label htmlFor="title">Title</label>
@@ -137,7 +172,13 @@ function Topic() {
               <label htmlFor="description">Description</label>
               <input name="description" />
               <button className="btn">Submit</button>
-              <button className="btn" type="button" onClick={createTopic}>
+              <button
+                className="btn"
+                type="button"
+                onClick={() => {
+                  setForm(null);
+                }}
+              >
                 Cancel
               </button>
             </form>
@@ -148,24 +189,42 @@ function Topic() {
           {posts.map((post) => (
             <>
               <div key={post._id}>
-                <span>
-                  Title : {post.title}
-                  <br />
-                  Description: {post.description}
-                </span>
+                <span>Title : {post.title}</span>
 
-                <button onClick={deleteTopic}>Delete</button>
+                <button
+                  onClick={() => {
+                    comment(post._id);
+                  }}
+                >
+                  Details
+                </button>
+                <button
+                  onClick={() => {
+                    setselectedPostId(post._id);
+                    setForm("delete");
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             </>
           ))}
         </div>
 
-        {isDeleting && <Backdrop onCreate={deleteTopic}></Backdrop>}
+        <form className="addComment">
+          <label htmlFor="comment">Comment</label>
+          <input name="comment"></input>
+          <button className="btn">Yes</button>
+        </form>
 
-        {isDeleting && (
+        {presentForm && <Backdrop onCreate={showForm}></Backdrop>}
+
+        {presentForm === "delete" && (
           <form className="addPost">
             Are you sure that you want to Delete this post?
-            <button className="btn">Yes</button>
+            <button className="btn" onClick={deletepost}>
+              Yes
+            </button>
           </form>
         )}
       </div>
