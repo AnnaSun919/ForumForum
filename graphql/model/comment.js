@@ -10,7 +10,7 @@ const commentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  realtedTopic: {
+  relatedTopic: {
     type: Schema.Types.ObjectId,
     ref: "Topic",
   },

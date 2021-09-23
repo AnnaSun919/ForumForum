@@ -4,8 +4,8 @@ module.exports = buildSchema(`
     type User {
     _id: ID!
     username: String!
-    password : String
-    createdTopic: [Topic]!
+    password : String!
+    createdTopics: [Topic]!
   }
 
   type Topic {
@@ -18,7 +18,7 @@ module.exports = buildSchema(`
   type Comment{
     _id:ID!
     topicComment: String!
-    realtedtopic: Topic!
+    relatedTopic: Topic!
     creater:User!
   }
 
@@ -30,6 +30,7 @@ module.exports = buildSchema(`
 
   input CommentInput{
     topicComment: String!
+    
   }
 
   input TopicInput{
@@ -52,7 +53,7 @@ module.exports = buildSchema(`
   type RootMutation{
     createTopic(topicInput : TopicInput): Topic
     createUser(userInput : UserInput): User
-    createComment(commentInput: CommentInput) : Comment
+    createComment(topicId:ID!, commentInput: CommentInput) : Comment
     deleteTopic(topicId: ID!) : Topic!
     editTopic(topicId:ID!,topicInput:TopicInput!): Topic!
   }

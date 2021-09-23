@@ -1,7 +1,9 @@
 const Topic = require("../model/topic");
+const User = require("../model/user");
 
 module.exports = {
-  createTopic: (args, req) => {
+  createTopic: async (args, req) => {
+    console.log(req.userId);
     if (!req.checkAuth) {
       throw new Error("unauthenticated");
     }
@@ -10,7 +12,20 @@ module.exports = {
       description: args.topicInput.description,
       creater: req.userId,
     });
-    return topic.save();
+
+    try {
+      await topic.save();
+
+      const creater = await User.findById(req.userId);
+
+      if (!creater) {
+        throw new Error("User not found.");
+      }
+      creater.createdTopics.push(topic);
+      await creater.save();
+    } catch (err) {
+      throw err;
+    }
   },
   deleteTopic: async (args) => {
     try {

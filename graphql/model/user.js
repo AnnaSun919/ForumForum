@@ -11,7 +11,7 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
-  createdTopic: [
+  createdTopics: [
     {
       type: Schema.Types.ObjectId,
       ref: "Topic",

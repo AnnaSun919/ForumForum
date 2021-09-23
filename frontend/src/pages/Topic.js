@@ -6,9 +6,10 @@ import "./Topic.css";
 
 function Topic() {
   const context = useContext(AuthContext);
+  const [posts, setContent] = useState([]);
 
   const [presentForm, setForm] = useState(null);
-  const [posts, setContent] = useState([]);
+
   const [selectedPostId, setselectedPostId] = useState(null);
 
   //to loan all posts
@@ -21,11 +22,6 @@ function Topic() {
     setForm((prevState) => {
       return !prevState;
     });
-  }
-
-  function comment(event) {
-    event.preventDefault();
-    console.log(event);
   }
 
   //function to sumbit and create a new post
@@ -147,6 +143,45 @@ function Topic() {
       });
   }
 
+  function comment(event) {
+    event.preventDefault();
+    const postId = selectedPostId;
+    const comment = event.target.comment.value;
+    let requestBody = {
+      query: `
+      mutation CreateComment($topicId:ID! $topicComment: String!){
+        createComment(topicId : $topicId, commentInput: {topicComment: $topicComment}){
+       
+          _id
+          topicComment
+         
+        }
+      }`,
+      variables: {
+        topicComment: comment,
+        topicId: postId,
+      },
+    };
+
+    fetch("http://localhost:5000/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + context.token,
+      },
+    })
+      .then((res) => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed!");
+        }
+        return res.json();
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
   return (
     <>
       <div>
@@ -161,9 +196,9 @@ function Topic() {
           +
         </button>
 
-        {presentForm === "create" && <Backdrop onCreate={showForm}></Backdrop>}
+        {presentForm && <Backdrop onCreate={showForm}></Backdrop>}
 
-        {presentForm && (
+        {presentForm === "create" && (
           <>
             <form className="addPost" onSubmit={sumbitPost}>
               <label htmlFor="title">Title</label>
@@ -191,13 +226,7 @@ function Topic() {
               <div key={post._id}>
                 <span>Title : {post.title}</span>
 
-                <button
-                  onClick={() => {
-                    comment(post._id);
-                  }}
-                >
-                  Details
-                </button>
+                <button>Details</button>
                 <button
                   onClick={() => {
                     setselectedPostId(post._id);
@@ -206,18 +235,28 @@ function Topic() {
                 >
                   Delete
                 </button>
+
+                <button
+                  onClick={() => {
+                    setForm("comment");
+                    setselectedPostId(post._id);
+                  }}
+                >
+                  Comment{" "}
+                </button>
               </div>
             </>
           ))}
         </div>
+        <div></div>
 
-        <form className="addComment">
-          <label htmlFor="comment">Comment</label>
-          <input name="comment"></input>
-          <button className="btn">Yes</button>
-        </form>
-
-        {presentForm && <Backdrop onCreate={showForm}></Backdrop>}
+        {presentForm === "comment" && (
+          <form className="addPost" onSubmit={comment}>
+            <label htmlFor="comment">Comment</label>
+            <input name="comment"></input>
+            <button className="btn">Yes</button>
+          </form>
+        )}
 
         {presentForm === "delete" && (
           <form className="addPost">
