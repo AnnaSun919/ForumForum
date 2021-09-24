@@ -26,7 +26,6 @@ module.exports = {
       const comments = await Comment.find({});
 
       return comments.map((comment) => {
-        console.log(comment._doc);
         return {
           ...comment._doc,
           creater: user.bind(this, comment._doc.creater),

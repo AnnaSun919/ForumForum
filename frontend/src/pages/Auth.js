@@ -67,7 +67,6 @@ function Auth(props) {
         console.log(err);
       });
   }
-  console.log(context.token);
 
   return (
     <div>

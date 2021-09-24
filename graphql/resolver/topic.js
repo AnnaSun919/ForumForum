@@ -3,7 +3,6 @@ const User = require("../model/user");
 
 module.exports = {
   createTopic: async (args, req) => {
-    console.log(req.userId);
     if (!req.checkAuth) {
       throw new Error("unauthenticated");
     }
