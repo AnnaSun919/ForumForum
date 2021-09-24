@@ -7,9 +7,7 @@ import "./Topic.css";
 function Topic() {
   const context = useContext(AuthContext);
   const [posts, setContent] = useState([]);
-
   const [presentForm, setForm] = useState(null);
-
   const [selectedPostId, setselectedPostId] = useState(null);
 
   //to loan all posts
@@ -151,10 +149,8 @@ function Topic() {
       query: `
       mutation CreateComment($topicId:ID! $topicComment: String!){
         createComment(topicId : $topicId, commentInput: {topicComment: $topicComment}){
-       
           _id
-          topicComment
-         
+          topicComment 
         }
       }`,
       variables: {

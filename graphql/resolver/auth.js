@@ -1,6 +1,7 @@
 const User = require("../model/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { topics } = require("./merge");
 
 module.exports = {
   createUser: (args) => {
@@ -57,7 +58,13 @@ module.exports = {
   users: async (args, req) => {
     try {
       const users = await User.find({ user: req.userId });
-      return users;
+
+      return users.map((user) => {
+        return {
+          ...user._doc,
+          createdTopics: topics.bind(this, user._doc.createdTopics),
+        };
+      });
     } catch (err) {
       throw err;
     }

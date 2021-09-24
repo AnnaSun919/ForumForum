@@ -1,6 +1,7 @@
 const Comment = require("../model/comment");
 const Topic = require("../model/topic");
 const User = require("../model/user");
+const { user, topics, singletopic } = require("./merge");
 
 module.exports = {
   createComment: async (args, req) => {
@@ -24,7 +25,14 @@ module.exports = {
     try {
       const comments = await Comment.find({});
 
-      return comments;
+      return comments.map((comment) => {
+        console.log(comment._doc);
+        return {
+          ...comment._doc,
+          creater: user.bind(this, comment._doc.creater),
+          relatedTopic: singletopic.bind(this, comment._doc.relatedTopic),
+        };
+      });
     } catch (err) {
       throw err;
     }
