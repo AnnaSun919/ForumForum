@@ -20,6 +20,8 @@ module.exports = {
       if (!creater) {
         throw new Error("User not found.");
       }
+
+      console.log(topic);
       creater.createdTopics.push(topic);
       await creater.save();
     } catch (err) {
@@ -53,8 +55,17 @@ module.exports = {
   },
   posts: async (args, req) => {
     try {
-      const topics = await Topic.find({}).populate("comments");
+      const topics = await Topic.find({});
       return topics;
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  singlePost: async (args) => {
+    try {
+      const topic = await Topic.findById(args.topicId).populate("userComments");
+      return topic;
     } catch (err) {
       throw err;
     }

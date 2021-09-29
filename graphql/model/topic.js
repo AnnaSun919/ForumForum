@@ -13,7 +13,7 @@ const topicSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  comments: [
+  userComments: [
     {
       type: Schema.Types.ObjectId,
       ref: "Comment",

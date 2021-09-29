@@ -14,8 +14,8 @@ module.exports = {
         creater: req.userId,
         relatedTopic: post,
       });
-
-      post.comments.push(comment._id);
+      console.log(comment);
+      post.userComments.push(comment);
       await post.save();
       return comment.save();
     } catch (err) {

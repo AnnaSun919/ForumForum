@@ -8,7 +8,7 @@ function Topic() {
   const [posts, setContent] = useState([]);
   const [presentForm, setForm] = useState(null);
   const [selectedPostId, setselectedPostId] = useState(null);
-  const [showComment, setShowComment] = useState([]);
+  const [showSinglePost, setShowSinglePost] = useState(null);
 
   //to loan all posts
   useEffect(() => {
@@ -41,6 +41,7 @@ function Topic() {
               _id
               title
               description
+             
             }
           }
         `,
@@ -79,7 +80,6 @@ function Topic() {
       posts {
         _id
         title 
-        description 
       }
     }`,
     };
@@ -141,6 +141,48 @@ function Topic() {
       });
   }
 
+  function fetchSinglepost(event, postId) {
+    event.preventDefault();
+    const requestBody = {
+      query: `query 
+      Singlpost($topicId: ID!) {
+        singlePost(topicId:$topicId){
+          _id
+          title
+          description
+          userComments{
+            topicComment
+          } 
+      }
+    }`,
+      variables: {
+        topicId: postId,
+      },
+    };
+
+    fetch("http://localhost:5000/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed!");
+        }
+
+        return res.json();
+      })
+      .then((resData) => {
+        console.log(resData);
+        setShowSinglePost(resData.data.singlePost);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   //function to make comment
   function comment(event) {
     event.preventDefault();
@@ -173,46 +215,6 @@ function Topic() {
           throw new Error("Failed!");
         }
         return res.json();
-      })
-      .catch((err) => {
-        throw err;
-      });
-  }
-
-  //fuction to get selected topic comment
-  function fetchComment(postId) {
-    let requestBody = {
-      query: `
-      query Comments($relatedTopic:ID!){
-        comments(relatedTopic: $relatedTopic){
-          _id
-          topicComment
-        
-          creater{
-            username
-          }
-        }
-      }`,
-      variables: {
-        relatedTopic: postId,
-      },
-    };
-
-    fetch("http://localhost:5000/graphql", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed!");
-        }
-        return res.json();
-      })
-      .then((res) => {
-        setShowComment(res.data.comments);
       })
       .catch((err) => {
         throw err;
@@ -263,7 +265,9 @@ function Topic() {
               <div key={post._id}>
                 <span>Title : {post.title}</span>
 
-                <button>Details</button>
+                <button onClick={(event) => fetchSinglepost(event, post._id)}>
+                  Details
+                </button>
                 <button
                   onClick={() => {
                     setselectedPostId(post._id);
@@ -279,26 +283,23 @@ function Topic() {
                     setselectedPostId(post._id);
                   }}
                 >
-                  Comment{" "}
-                </button>
-                <button
-                  onClick={() => {
-                    fetchComment(post._id);
-                  }}
-                >
-                  show Comment
+                  Comment
                 </button>
               </div>
             </>
           ))}
         </div>
-        {showComment &&
-          showComment.map((comment) => (
-            <>
-              {comment.topicComment}
-              {comment.creater.username}
-            </>
-          ))}
+
+        {showSinglePost && (
+          <div>
+            <h1>{showSinglePost.title}</h1>
+            <span>{showSinglePost.description}</span>
+            <br />
+            {showSinglePost.userComments.map((usercomment) => (
+              <span>{usercomment.topicComment}</span>
+            ))}
+          </div>
+        )}
 
         {presentForm === "comment" && (
           <form className="addPost" onSubmit={comment}>

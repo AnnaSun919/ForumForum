@@ -15,6 +15,7 @@ const topics = async (postIds) => {
         _id: topic.id,
         title: topic.title,
         creater: user.bind(this, topic.creater),
+        userComment: comment.bind(this, topic.userComment),
       };
     });
     return topics;
@@ -50,6 +51,20 @@ const user = async (userId) => {
     throw err;
   }
 };
+
+// const comment = async (commentId) => {
+//   try {
+//     const comment = await Comment.findById(commentId);
+
+//     return {
+//       ...comment._doc,
+//       _id: comment.id,
+//       relatedTopics: topics.bind(this, comment._doc.relatedTopics),
+//     };
+//   } catch (err) {
+//     throw err;
+//   }
+// };
 
 exports.user = user;
 exports.topics = topics;

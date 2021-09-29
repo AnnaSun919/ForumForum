@@ -8,20 +8,21 @@ module.exports = buildSchema(`
     createdTopics: [Topic]!
   }
 
-  type Topic {
-    _id:ID!
-    title:String!
-    description:String!
-    creater: User!
-    comments: Comment!
-  }
-
   type Comment{
     _id:ID!
     topicComment: String!
     relatedTopic: Topic!
     creater:User!
   }
+
+  type Topic {
+    _id:ID!
+    title:String!
+    description:String!
+    creater: User!
+    userComments: [Comment]!
+  }
+
 
   type AuthData{
     userId:ID!
@@ -46,7 +47,8 @@ module.exports = buildSchema(`
   type RootQuery {
     users: [User!]!
     posts: [Topic!]!
-    comments(relatedTopic: ID!) : [Comment!]
+    singlePost(topicId:ID!): Topic!
+    comments: [Comment!]!
     login(username: String!, password: String!): AuthData!
    }
 
