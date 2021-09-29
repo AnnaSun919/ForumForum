@@ -15,15 +15,17 @@ module.exports = {
         relatedTopic: post,
       });
 
+      post.comments.push(comment._id);
+      await post.save();
       return comment.save();
     } catch (err) {
       throw err;
     }
   },
 
-  comments: async () => {
+  comments: async (args, req) => {
     try {
-      const comments = await Comment.find({});
+      const comments = await Comment.find();
 
       return comments.map((comment) => {
         return {

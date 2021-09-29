@@ -13,6 +13,7 @@ module.exports = buildSchema(`
     title:String!
     description:String!
     creater: User!
+    comments: Comment!
   }
 
   type Comment{
@@ -30,7 +31,6 @@ module.exports = buildSchema(`
 
   input CommentInput{
     topicComment: String!
-    
   }
 
   input TopicInput{
@@ -46,7 +46,7 @@ module.exports = buildSchema(`
   type RootQuery {
     users: [User!]!
     posts: [Topic!]!
-    comments : [Comment!]
+    comments(relatedTopic: ID!) : [Comment!]
     login(username: String!, password: String!): AuthData!
    }
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function Comment() {
-  const [comment, setComment] = useState([]);
-
+function Comment(props) {
   useEffect(() => {
     fetchComment();
   }, []);
@@ -10,12 +8,13 @@ function Comment() {
   function fetchComment() {
     let requestBody = {
       query: `
-      query{
+      query {
         comments{
           _id
           topicComment
-          
-     
+          relatedTopic{
+            _id
+          }
         }
       }`,
     };
@@ -40,6 +39,7 @@ function Comment() {
         throw err;
       });
   }
+
   return (
     <div>
       <h1>Hello world</h1>

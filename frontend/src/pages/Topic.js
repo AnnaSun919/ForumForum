@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/authcontext";
-
 import Backdrop from "../component/BackDrop/BackDrop";
 import "./Topic.css";
 
@@ -9,6 +8,7 @@ function Topic() {
   const [posts, setContent] = useState([]);
   const [presentForm, setForm] = useState(null);
   const [selectedPostId, setselectedPostId] = useState(null);
+  const [showComment, setShowComment] = useState([]);
 
   //to loan all posts
   useEffect(() => {
@@ -141,6 +141,7 @@ function Topic() {
       });
   }
 
+  //function to make comment
   function comment(event) {
     event.preventDefault();
     const postId = selectedPostId;
@@ -172,6 +173,46 @@ function Topic() {
           throw new Error("Failed!");
         }
         return res.json();
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  //fuction to get selected topic comment
+  function fetchComment(postId) {
+    let requestBody = {
+      query: `
+      query Comments($relatedTopic:ID!){
+        comments(relatedTopic: $relatedTopic){
+          _id
+          topicComment
+        
+          creater{
+            username
+          }
+        }
+      }`,
+      variables: {
+        relatedTopic: postId,
+      },
+    };
+
+    fetch("http://localhost:5000/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed!");
+        }
+        return res.json();
+      })
+      .then((res) => {
+        setShowComment(res.data.comments);
       })
       .catch((err) => {
         throw err;
@@ -240,11 +281,24 @@ function Topic() {
                 >
                   Comment{" "}
                 </button>
+                <button
+                  onClick={() => {
+                    fetchComment(post._id);
+                  }}
+                >
+                  show Comment
+                </button>
               </div>
             </>
           ))}
         </div>
-        <div></div>
+        {showComment &&
+          showComment.map((comment) => (
+            <>
+              {comment.topicComment}
+              {comment.creater.username}
+            </>
+          ))}
 
         {presentForm === "comment" && (
           <form className="addPost" onSubmit={comment}>

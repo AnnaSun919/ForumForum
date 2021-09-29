@@ -53,7 +53,7 @@ module.exports = {
   },
   posts: async (args, req) => {
     try {
-      const topics = await Topic.find({});
+      const topics = await Topic.find({}).populate("comments");
       return topics;
     } catch (err) {
       throw err;
