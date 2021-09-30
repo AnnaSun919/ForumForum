@@ -1,5 +1,6 @@
 const Topic = require("../model/topic");
 const User = require("../model/user");
+const Comment = require("../model/comment");
 
 //by using function here can provide flexibity
 //better than populate , the function will be called only when the property is require
@@ -9,16 +10,14 @@ const topics = async (postIds) => {
   try {
     const topics = await Topic.find({ _id: { $in: postIds } });
 
-    topics.map((topic) => {
+    return topics.map((topic) => {
       return {
         ...topic._doc,
         _id: topic.id,
-        title: topic.title,
-        creater: user.bind(this, topic.creater),
-        userComment: comment.bind(this, topic.userComment),
+        creater: user.bind(this, topic._doc.creater),
+        userComments: comment.bind(this, topic._doc.userComments),
       };
     });
-    return topics;
   } catch (err) {
     throw err;
   }
@@ -31,7 +30,7 @@ const singletopic = async (postId) => {
     return {
       ...post._doc,
       _id: post.id,
-      creater: user.bind(this, post.creater),
+      creater: user.bind(this, post._doc.creater),
     };
   } catch (err) {
     throw err;
@@ -40,7 +39,7 @@ const singletopic = async (postId) => {
 
 const user = async (userId) => {
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate("createdTopics");
 
     return {
       ...user._doc,
@@ -52,20 +51,24 @@ const user = async (userId) => {
   }
 };
 
-// const comment = async (commentId) => {
-//   try {
-//     const comment = await Comment.findById(commentId);
+const comment = async (commentId) => {
+  try {
+    const comments = await Comment.find({ _id: { $in: commentId } });
 
-//     return {
-//       ...comment._doc,
-//       _id: comment.id,
-//       relatedTopics: topics.bind(this, comment._doc.relatedTopics),
-//     };
-//   } catch (err) {
-//     throw err;
-//   }
-// };
+    return comments.map((comment) => {
+      return {
+        ...comment._doc,
+        _id: comment.id,
+        creater: user.bind(this, comment._doc.creater),
+        relatedTopic: singletopic.bind(this, comment._doc.relatedTopic),
+      };
+    });
+  } catch (err) {
+    throw err;
+  }
+};
 
 exports.user = user;
 exports.topics = topics;
 exports.singletopic = singletopic;
+exports.comment = comment;

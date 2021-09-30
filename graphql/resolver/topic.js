@@ -1,6 +1,8 @@
 const Topic = require("../model/topic");
 const User = require("../model/user");
 
+const { user, comment, topics } = require("./merge");
+
 module.exports = {
   createTopic: async (args, req) => {
     if (!req.checkAuth) {
@@ -56,18 +58,40 @@ module.exports = {
   posts: async (args, req) => {
     try {
       const topics = await Topic.find({});
-      return topics;
+
+      return topics.map((topic) => {
+        return {
+          ...topic._doc,
+          _id: topic.id,
+          creater: user.bind(this, topic._doc.creater),
+          userComments: comment.bind(this, topic._doc.userComments),
+        };
+      });
     } catch (err) {
       throw err;
     }
   },
 
-  singlePost: async (args) => {
+  singlePost: async (args, req) => {
     try {
-      const topic = await Topic.findById(args.topicId).populate("userComments");
-      return topic;
+      const topic = await Topic.findById(args.topicId);
+
+      return {
+        ...topic._doc,
+        creater: user.bind(this, topic._doc.creater),
+        userComments: comment.bind(this, topic._doc.userComments),
+      };
     } catch (err) {
       throw err;
     }
   },
+  // };
+  //   singlePost: async (args) => {
+  //     try {
+  //       const topic = await Topic.findById(args.topicId).populate("userComments");
+  //       return topic;
+  //     } catch (err) {
+  //       throw err;
+  //     }
+  //   },
 };

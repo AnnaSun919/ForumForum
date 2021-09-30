@@ -62,6 +62,7 @@ module.exports = {
       return users.map((user) => {
         return {
           ...user._doc,
+          _id: user.id,
           createdTopics: topics.bind(this, user._doc.createdTopics),
         };
       });

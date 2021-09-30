@@ -7,14 +7,13 @@ module.exports = {
   createComment: async (args, req) => {
     try {
       const post = await Topic.findById(args.topicId);
-
+      console.log(post);
       const comment = new Comment({
         //left is type, right is comment input
         topicComment: args.commentInput.topicComment,
         creater: req.userId,
         relatedTopic: post,
       });
-      console.log(comment);
       post.userComments.push(comment);
       await post.save();
       return comment.save();
@@ -25,7 +24,7 @@ module.exports = {
 
   comments: async (args, req) => {
     try {
-      const comments = await Comment.find();
+      const comments = await Comment.find().populate("creater");
 
       return comments.map((comment) => {
         return {
