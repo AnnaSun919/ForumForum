@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { topics } = require("./merge");
 
 module.exports = {
+  //function to create userAccount
   createUser: (args) => {
     const myPassRegex = new RegExp(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/
@@ -38,6 +39,8 @@ module.exports = {
         throw err;
       });
   },
+
+  //for login
   login: async (args) => {
     const user = await User.findOne({ username: args.username });
 
@@ -55,6 +58,7 @@ module.exports = {
     );
     return { userId: user.id, token: token, tokenExpiration: 1 };
   },
+  //for show all users
   users: async (args, req) => {
     try {
       const users = await User.find({ user: req.userId });

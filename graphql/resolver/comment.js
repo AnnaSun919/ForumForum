@@ -4,7 +4,11 @@ const User = require("../model/user");
 const { user, topics, singletopic } = require("./merge");
 
 module.exports = {
+  //function for creating comments
   createComment: async (args, req) => {
+    if (!req.checkAuth) {
+      throw new Error("unauthenticated");
+    }
     try {
       const post = await Topic.findById(args.topicId);
       console.log(post);
@@ -21,10 +25,10 @@ module.exports = {
       throw err;
     }
   },
-
+  //functions for searching comments
   comments: async (args, req) => {
     try {
-      const comments = await Comment.find().populate("creater");
+      const comments = await Comment.find();
 
       return comments.map((comment) => {
         return {

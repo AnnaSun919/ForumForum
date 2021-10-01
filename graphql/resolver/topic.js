@@ -4,6 +4,7 @@ const User = require("../model/user");
 const { user, comment, topics } = require("./merge");
 
 module.exports = {
+  //function for creating posts
   createTopic: async (args, req) => {
     if (!req.checkAuth) {
       throw new Error("unauthenticated");
@@ -30,6 +31,8 @@ module.exports = {
       throw err;
     }
   },
+
+  //function for deleting post
   deleteTopic: async (args) => {
     try {
       const topic = await Topic.findById(args.topicId);
@@ -39,6 +42,8 @@ module.exports = {
       throw err;
     }
   },
+
+  //function for editing post
   editTopic: async (args) => {
     try {
       const topic = await Topic.findByIdAndUpdate(
@@ -55,6 +60,8 @@ module.exports = {
       throw err;
     }
   },
+
+  //function for showing posts
   posts: async (args, req) => {
     try {
       const topics = await Topic.find({});
@@ -71,7 +78,7 @@ module.exports = {
       throw err;
     }
   },
-
+  //function for showing single post
   singlePost: async (args, req) => {
     try {
       const topic = await Topic.findById(args.topicId);
@@ -85,13 +92,4 @@ module.exports = {
       throw err;
     }
   },
-  // };
-  //   singlePost: async (args) => {
-  //     try {
-  //       const topic = await Topic.findById(args.topicId).populate("userComments");
-  //       return topic;
-  //     } catch (err) {
-  //       throw err;
-  //     }
-  //   },
 };

@@ -6,6 +6,7 @@ const Comment = require("../model/comment");
 //better than populate , the function will be called only when the property is require
 //wont create infinite loop
 
+//for populate the topics' info in users' and comments' fields
 const topics = async (postIds) => {
   try {
     const topics = await Topic.find({ _id: { $in: postIds } });
@@ -23,6 +24,7 @@ const topics = async (postIds) => {
   }
 };
 
+//populate single post info
 const singletopic = async (postId) => {
   try {
     const post = await Topic.findById(postId);
@@ -37,6 +39,7 @@ const singletopic = async (postId) => {
   }
 };
 
+//populate user info
 const user = async (userId) => {
   try {
     const user = await User.findById(userId).populate("createdTopics");
@@ -51,6 +54,7 @@ const user = async (userId) => {
   }
 };
 
+//populate comment info
 const comment = async (commentId) => {
   try {
     const comments = await Comment.find({ _id: { $in: commentId } });

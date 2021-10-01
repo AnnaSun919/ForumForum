@@ -2,12 +2,9 @@ import "./App.css";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import AuthPage from "./pages/Auth";
 import Home from "./pages/Topic";
-import Comment from "./pages/Comment";
+
 import Authcontext from "./context/authcontext";
 import React, { useState } from "react";
-import Navbar from "./component/NavBar/Navbar";
-import NavItem from "./component/NavBar/NavItem";
-import DropdownMenu from "./component/NavBar/DropdownMenu";
 
 function App() {
   const [token, setToken] = useState(null);
@@ -25,11 +22,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar>
-        <NavItem icon="🤣">
-          <DropdownMenu />
-        </NavItem>
-      </Navbar>
       <Authcontext.Provider
         value={{
           token: token,
@@ -51,12 +43,6 @@ function App() {
             path="/signin"
             render={(routeProps) => {
               return <AuthPage name="Sign in" {...routeProps} />;
-            }}
-          />
-          <Route
-            path="/comment"
-            render={(routeProps) => {
-              return <Comment />;
             }}
           />
         </Switch>

@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/authcontext";
 import Backdrop from "../component/BackDrop/BackDrop";
 import "./Topic.css";
+import Navbar from "../component/NavBar/Navbar";
+import NavItem from "../component/NavBar/NavItem";
+import DropdownMenu from "../component/NavBar/DropdownMenu";
 
 function Topic() {
   const context = useContext(AuthContext);
@@ -41,6 +44,7 @@ function Topic() {
               _id
               title
               description
+          
              
             }
           }
@@ -80,6 +84,9 @@ function Topic() {
       posts {
         _id
         title 
+        creater{
+          username
+        }
       }
     }`,
     };
@@ -152,6 +159,9 @@ function Topic() {
           description
           userComments{
             topicComment
+            creater{
+              username
+            }
           } 
       }
     }`,
@@ -222,52 +232,56 @@ function Topic() {
   }
 
   return (
-    <>
-      <div>
-        <h1>home</h1>
+    <div>
+      {presentForm && <Backdrop onCreate={showForm}></Backdrop>}
 
-        <button
-          className="btn"
-          onClick={() => {
-            setForm("create");
-          }}
-        >
-          +
-        </button>
+      {presentForm === "create" && (
+        <>
+          <form className="addPost" onSubmit={sumbitPost}>
+            <label htmlFor="title">Title</label>
+            <input name="title" />
 
-        {presentForm && <Backdrop onCreate={showForm}></Backdrop>}
-
-        {presentForm === "create" && (
-          <>
-            <form className="addPost" onSubmit={sumbitPost}>
-              <label htmlFor="title">Title</label>
-              <input name="title" />
-
-              <label htmlFor="description">Description</label>
-              <input name="description" />
-              <button className="btn">Submit</button>
-              <button
-                className="btn"
-                type="button"
-                onClick={() => {
-                  setForm(null);
-                }}
-              >
-                Cancel
-              </button>
-            </form>
-          </>
-        )}
-
-        <div>
+            <label htmlFor="description">Description</label>
+            <input name="description" />
+            <button className="btn">Submit</button>
+            <button
+              className="btn"
+              type="button"
+              onClick={() => {
+                setForm(null);
+              }}
+            >
+              Cancel
+            </button>
+          </form>
+        </>
+      )}
+      <div className="page">
+        <div className="posts">
+          <Navbar>
+            <NavItem icon="🤣" name="Forum Forum">
+              <DropdownMenu />
+            </NavItem>
+          </Navbar>
+          <button
+            className="btn"
+            id="createButton"
+            onClick={() => {
+              setForm("create");
+            }}
+          >
+            +
+          </button>
           {posts.map((post) => (
             <>
-              <div key={post._id}>
-                <span>Title : {post.title}</span>
-
-                <button onClick={(event) => fetchSinglepost(event, post._id)}>
-                  Details
-                </button>
+              <div className="items" key={post._id}>
+                <span>{post.creater.username}</span>
+                <span
+                  className="title"
+                  onClick={(event) => fetchSinglepost(event, post._id)}
+                >
+                  {post.title}
+                </span>
                 <button
                   onClick={() => {
                     setselectedPostId(post._id);
@@ -276,49 +290,53 @@ function Topic() {
                 >
                   Delete
                 </button>
-
-                <button
-                  onClick={() => {
-                    setForm("comment");
-                    setselectedPostId(post._id);
-                  }}
-                >
-                  Comment
-                </button>
               </div>
             </>
           ))}
         </div>
 
-        {showSinglePost && (
-          <div>
-            <h1>{showSinglePost.title}</h1>
-            <span>{showSinglePost.description}</span>
-            <br />
-            {showSinglePost.userComments.map((usercomment) => (
-              <span>{usercomment.topicComment}</span>
-            ))}
-          </div>
-        )}
-
-        {presentForm === "comment" && (
-          <form className="addPost" onSubmit={comment}>
-            <label htmlFor="comment">Comment</label>
-            <input name="comment"></input>
-            <button className="btn">Yes</button>
-          </form>
-        )}
-
-        {presentForm === "delete" && (
-          <form className="addPost">
-            Are you sure that you want to Delete this post?
-            <button className="btn" onClick={deletepost}>
-              Yes
-            </button>
-          </form>
-        )}
+        <div className="singlePost">
+          {showSinglePost && (
+            <div>
+              <button
+                onClick={() => {
+                  setForm("comment");
+                  setselectedPostId(showSinglePost._id);
+                }}
+              >
+                Comment
+              </button>
+              <h1>{showSinglePost.title}</h1>
+              <span>Description: {showSinglePost.description}</span>
+              <br />
+              {showSinglePost.userComments.map((usercomment) => (
+                <span>
+                  comment: {usercomment.topicComment} <br />
+                  created by : {usercomment.creater.username}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </>
+
+      {presentForm === "comment" && (
+        <form className="addPost" onSubmit={comment}>
+          <label htmlFor="comment">Comment</label>
+          <input name="comment"></input>
+          <button className="btn">Yes</button>
+        </form>
+      )}
+
+      {presentForm === "delete" && (
+        <form className="addPost">
+          Are you sure that you want to Delete this post?
+          <button className="btn" onClick={deletepost}>
+            Yes
+          </button>
+        </form>
+      )}
+    </div>
   );
 }
 
