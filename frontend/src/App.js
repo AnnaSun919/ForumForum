@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import AuthPage from "./pages/Auth";
 import Home from "./pages/Topic";
-
+import Users from "./pages/User";
 import Authcontext from "./context/authcontext";
 import React, { useState } from "react";
 
@@ -32,6 +32,7 @@ function App() {
       >
         <Switch>
           <Route path="/" component={Home} exact />
+          <Route path="/users" component={Users} exact />
           <Route
             path="/signup"
             render={(routeProps) => {

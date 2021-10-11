@@ -86,6 +86,7 @@ function Topic() {
         title 
         creater{
           username
+          _id
         }
       }
     }`,
@@ -282,14 +283,17 @@ function Topic() {
                 >
                   {post.title}
                 </span>
-                <button
-                  onClick={() => {
-                    setselectedPostId(post._id);
-                    setForm("delete");
-                  }}
-                >
-                  Delete
-                </button>
+                {context.userId === post.creater._id && (
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      setselectedPostId(post._id);
+                      setForm("delete");
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             </>
           ))}
@@ -299,6 +303,7 @@ function Topic() {
           {showSinglePost && (
             <div>
               <button
+                className="btn"
                 onClick={() => {
                   setForm("comment");
                   setselectedPostId(showSinglePost._id);
