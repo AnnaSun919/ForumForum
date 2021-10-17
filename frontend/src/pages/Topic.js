@@ -149,6 +149,7 @@ function Topic() {
       });
   }
 
+  //function to fetch single post
   function fetchSinglepost(event, postId) {
     event.preventDefault();
     const requestBody = {
@@ -158,6 +159,9 @@ function Topic() {
           _id
           title
           description
+          creater{
+            username
+          }
           userComments{
             topicComment
             creater{
@@ -232,6 +236,8 @@ function Topic() {
       });
   }
 
+  console.log(showSinglePost);
+
   return (
     <div>
       {presentForm && <Backdrop onCreate={showForm}></Backdrop>}
@@ -276,7 +282,7 @@ function Topic() {
           {posts.map((post) => (
             <>
               <div className="items" key={post._id}>
-                <span>{post.creater.username}</span>
+                <span className="username">{post.creater.username}</span>
                 <span
                   className="title"
                   onClick={(event) => fetchSinglepost(event, post._id)}
@@ -312,13 +318,25 @@ function Topic() {
                 Comment
               </button>
               <h1>{showSinglePost.title}</h1>
-              <span>Description: {showSinglePost.description}</span>
-              <br />
-              {showSinglePost.userComments.map((usercomment) => (
-                <span>
-                  comment: {usercomment.topicComment} <br />
-                  created by : {usercomment.creater.username}
+              <div className="origin">
+                <span className="username">
+                  {showSinglePost.creater.username}
+                  <br />
                 </span>
+                <span>
+                  {showSinglePost.description}
+                  <br />
+                  <span className="like_button"> 👍 👎</span>
+                </span>
+              </div>
+              {showSinglePost.userComments.map((usercomment) => (
+                <div className="comment">
+                  <span className="username">
+                    {usercomment.creater.username}
+                  </span>
+                  <br />
+                  {usercomment.topicComment} <br />
+                </div>
               ))}
             </div>
           )}

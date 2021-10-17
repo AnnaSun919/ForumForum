@@ -23,7 +23,13 @@
 .items{
 display: flex;
 flex-direction: column;
+margin: 10px;
+border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
+}
+
+.username{
+  color: rgb(211, 88, 156);
 }
 
 .title{
@@ -37,7 +43,41 @@ flex-direction: column;
 
 }
 
+
 .singlePost h1{
   width: 120vh;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
+}
+
+.origin{
+  width: 120vh;
+  border-bottom: 1px solid rgba(126, 124, 124, 0.432);
+}
+
+.comment{
+  width: 120vh;
+  border-bottom: 1px solid rgba(126, 124, 124, 0.432);
+
+}
+
+@media screen and (max-width: 600px) {
+  /* .singlePost #inactive{
+    display: none;
+  } */
+  .singlePost .origin {
+    width: 30vh;
+  }
+  .singlePost h1{
+    width: 30vh;
+  } 
+  .comment{
+    width: 30vh;
+ 
+  
+  }
+  .posts{
+    height:100vh;
+    width: 100%;
+    border-right: 1px solid rgba(126, 124, 124, 0.432);
+  }
 }

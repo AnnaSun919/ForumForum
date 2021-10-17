@@ -13,7 +13,6 @@ function User() {
     users {
       _id
        username
-    
     }
   }`,
     };
@@ -33,6 +32,7 @@ function User() {
         return res.json();
       })
       .then((resData) => {
+        console.log(resData);
         setUsers(resData.data.users);
       })
       .catch((err) => {
@@ -42,11 +42,12 @@ function User() {
 
   return (
     <div>
-      {users.map((user) => (
-        <>
-          <p>{user.username}</p>
-        </>
-      ))}
+      {users &&
+        users.map((user) => (
+          <>
+            <p>{user.username}</p>
+          </>
+        ))}
     </div>
   );
 }
