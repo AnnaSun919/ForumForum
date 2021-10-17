@@ -321,13 +321,10 @@ function Topic() {
               <div className="origin">
                 <span className="username">
                   {showSinglePost.creater.username}
-                  <br />
                 </span>
-                <span>
-                  {showSinglePost.description}
-                  <br />
-                  <span className="like_button"> 👍 👎</span>
-                </span>
+                <span>{showSinglePost.description}</span>
+                <br />
+                <div className="likeButton"> 👍 0 👎 0</div>
               </div>
               {showSinglePost.userComments.map((usercomment) => (
                 <div className="comment">
@@ -335,7 +332,8 @@ function Topic() {
                     {usercomment.creater.username}
                   </span>
                   <br />
-                  {usercomment.topicComment} <br />
+                  {usercomment.topicComment}
+                  <div className="likeButton"> 👍 0 👎 0</div>
                 </div>
               ))}
             </div>
