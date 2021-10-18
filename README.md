@@ -37,9 +37,11 @@ Chat:
 
 ### User model:
 
-username,
-password,
-created Topics
+```
+    username,
+    password,
+    createdTopics
+```
 
 ### Topid model:
 
