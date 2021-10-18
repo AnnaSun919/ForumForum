@@ -1,18 +1,4 @@
-Forumforum
-
-Description
-
-MVP Scope and User stories
-
-Backlog
-
-Models
-
 # Forumforum
-
-<br><br>
-
-## Description
 
 A forum websit for users to submit posts and have discussions.
 
