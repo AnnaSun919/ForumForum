@@ -43,10 +43,16 @@ border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
 }
 
-
+.singlePost {
+  width: 120vh;
+  border-bottom: 1px solid rgba(126, 124, 124, 0.432);
+    
+  
+}
 .singlePost h1{
   width: 120vh;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
+
 }
 
 .origin{
@@ -59,6 +65,7 @@ flex-direction: column;
 
 .comment{
   width: 120vh;
+  min-height: 20vh;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
 }

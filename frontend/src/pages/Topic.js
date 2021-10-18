@@ -33,7 +33,7 @@ function Topic() {
     const title = event.target.title.value;
     const description = event.target.description.value;
 
-    //The trim() method removes whitespace from both ends of a string.//
+    //The trim() method removes whitespace//
     if (title.trim().length === 0 && description.trim().length === 0) {
       return;
     }
@@ -44,9 +44,7 @@ function Topic() {
             createTopic(topicInput: {title: $title, description: $desc}) {
               _id
               title
-              description
-          
-             
+              description   
             }
           }
         `,
@@ -89,6 +87,9 @@ function Topic() {
           username
           _id
         }
+        like{
+          _id
+        }
       }
     }`,
     };
@@ -117,7 +118,6 @@ function Topic() {
   }
 
   //function to delete post
-
   function deletepost() {
     const postId = selectedPostId;
     let requestBody = {
@@ -237,7 +237,7 @@ function Topic() {
       });
   }
 
-  console.log(showSinglePost);
+  console.log(posts);
 
   return (
     <div>
@@ -283,7 +283,9 @@ function Topic() {
           {posts.map((post) => (
             <>
               <div className="items" key={post._id}>
-                <span className="username">{post.creater.username}</span>
+                <span className="username">
+                  {post.creater.username} ❤️{post.like.length}
+                </span>
                 <span
                   className="title"
                   onClick={(event) => fetchSinglepost(event, post._id)}
@@ -321,7 +323,7 @@ function Topic() {
               <h1>{showSinglePost.title}</h1>
               <div className="origin">
                 <span className="username">
-                  {showSinglePost.creater.username}
+                  #1 {showSinglePost.creater.username}
                 </span>
                 <span>{showSinglePost.description}</span>
                 <br />
@@ -329,14 +331,13 @@ function Topic() {
                   <Like postId={showSinglePost._id} />
                 </div>
               </div>
-              {showSinglePost.userComments.map((usercomment) => (
+              {showSinglePost.userComments.map((usercomment, index) => (
                 <div className="comment">
                   <span className="username">
-                    {usercomment.creater.username}
+                    # {+index + 2} {usercomment.creater.username}
                   </span>
                   <br />
                   {usercomment.topicComment}
-                  <Like props={showSinglePost._id} />
                 </div>
               ))}
             </div>

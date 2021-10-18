@@ -57,7 +57,7 @@ module.exports = {
   like: async (args, req) => {
     try {
       const topic = await Topic.findById(args.topicId);
-      console.log(topic);
+
       return topic.like;
     } catch (err) {
       throw err;

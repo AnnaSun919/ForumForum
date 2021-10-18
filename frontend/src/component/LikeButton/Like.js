@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
+
 import AuthContext from "../../context/authcontext";
 
 function Like(props) {
   const [like, updateLike] = useState(0);
   const context = useContext(AuthContext);
   const [likeId, updateLikeId] = useState(null);
+
+  const postId = props.postId;
 
   useEffect(() => {
     fetchLike();
@@ -13,7 +16,6 @@ function Like(props) {
   // const [dislike, updateDislike] = useState(0);
 
   const clickLike = () => {
-    const postId = props.postId;
     if (context) {
       updateLike(like + 1);
     }
@@ -50,8 +52,6 @@ function Like(props) {
   };
 
   function fetchLike() {
-    const postId = props.postId;
-
     const requestBody = {
       query: `query
       Like($topicId: ID!) {
@@ -89,7 +89,19 @@ function Like(props) {
 
   return (
     <div>
-      <button onClick={clickLike}>{like} 👍</button>
+      {likeId && likeId.some((like) => like._id === context.userId) ? (
+        <button>{like} ❤️</button>
+      ) : context.userId ? (
+        <button onClick={clickLike}>{like} 🤍 </button>
+      ) : (
+        <button
+          onClick={() => {
+            alert("Please sign in");
+          }}
+        >
+          {like} 🤍{" "}
+        </button>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 # Forumforum
 
-A forum websit for users to submit posts and have discussions.
+A forum website for users to submit posts and have discussions.
 
 <br><br>
 
