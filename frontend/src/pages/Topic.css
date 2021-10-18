@@ -65,12 +65,8 @@ flex-direction: column;
 .likeButton{
   margin-top: auto;
   margin-bottom: 10px;
-  width: 50px;
   border-radius: 3px;
   padding: 3px;
-  background-color: rgba(94, 92, 92, 0.575);
- 
-
 }
 
 @media screen and (max-width: 600px) {

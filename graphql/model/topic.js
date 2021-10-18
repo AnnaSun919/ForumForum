@@ -19,6 +19,12 @@ const topicSchema = new Schema({
       ref: "Comment",
     },
   ],
+  like: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Topic", topicSchema);

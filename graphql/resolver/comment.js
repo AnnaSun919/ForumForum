@@ -41,4 +41,26 @@ module.exports = {
       throw err;
     }
   },
+  likeTopic: async (args, req) => {
+    if (!req.checkAuth) {
+      throw new Error("unauthenticated");
+    }
+    try {
+      const post = await Topic.findById(args.topicId);
+      console.log(req.userId);
+      post.like.push(req.userId);
+      return post.save();
+    } catch (err) {
+      throw err;
+    }
+  },
+  like: async (args, req) => {
+    try {
+      const topic = await Topic.findById(args.topicId);
+      console.log(topic);
+      return topic.like;
+    } catch (err) {
+      throw err;
+    }
+  },
 };

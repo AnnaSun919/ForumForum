@@ -5,6 +5,7 @@ import "./Topic.css";
 import Navbar from "../component/NavBar/Navbar";
 import NavItem from "../component/NavBar/NavItem";
 import DropdownMenu from "../component/NavBar/DropdownMenu";
+import Like from "../component/LikeButton/Like";
 
 function Topic() {
   const context = useContext(AuthContext);
@@ -324,7 +325,9 @@ function Topic() {
                 </span>
                 <span>{showSinglePost.description}</span>
                 <br />
-                <div className="likeButton"> 👍 0 👎 0</div>
+                <div className="likeButton">
+                  <Like postId={showSinglePost._id} />
+                </div>
               </div>
               {showSinglePost.userComments.map((usercomment) => (
                 <div className="comment">
@@ -333,7 +336,7 @@ function Topic() {
                   </span>
                   <br />
                   {usercomment.topicComment}
-                  <div className="likeButton"> 👍 0 👎 0</div>
+                  <Like props={showSinglePost._id} />
                 </div>
               ))}
             </div>

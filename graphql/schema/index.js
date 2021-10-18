@@ -21,6 +21,7 @@ module.exports = buildSchema(`
     description:String!
     creater: User!
     userComments: [Comment]!
+    like:[Like]!
   }
 
 
@@ -28,6 +29,11 @@ module.exports = buildSchema(`
     userId:ID!
     token: String!
     tokenExpiration: Int!
+  }
+
+  type Like{
+    _id:ID!
+    user:User!
   }
 
   input CommentInput{
@@ -50,6 +56,7 @@ module.exports = buildSchema(`
     singlePost(topicId:ID!): Topic!
     comments: [Comment!]!
     login(username: String!, password: String!): AuthData!
+    like(topicId:ID!):[Like!]!
    }
 
   type RootMutation{
@@ -58,6 +65,7 @@ module.exports = buildSchema(`
     createComment(topicId:ID!, commentInput: CommentInput) : Comment
     deleteTopic(topicId: ID!) : Topic!
     editTopic(topicId:ID!,topicInput:TopicInput!): Topic!
+    likeTopic(topicId: ID!): Topic
   }
   
   schema{
