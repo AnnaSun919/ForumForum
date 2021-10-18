@@ -38,21 +38,25 @@ Chat:
 ### User model:
 
 ```
-    username,
-    password,
-    createdTopics
+  username,
+  password,
+  createdTopics
 ```
 
 ### Topid model:
 
-title,
-description,
-creater,
-userComments,
-like
+```
+  title,
+  description,
+  creater,
+  userComments,
+  like
+```
 
 ### Comment model:
 
-topicComment,
-creater,
-relatedTopic
+```
+  topicComment,
+  creater,
+  relatedTopic
+```
