@@ -79,7 +79,6 @@ function Like(props) {
         return res.json();
       })
       .then((res) => {
-        console.log(res.data.like);
         updateLike(res.data.like.length);
         updateLikeId(res.data.like);
       })
