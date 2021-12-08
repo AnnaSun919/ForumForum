@@ -4,8 +4,6 @@ A forum website which is built with GraphQl and React.js, for users to submit po
 </br>
 Using GraphQL and Mongoose as backend to build the schema for storing forum data and React as frontend to attain and display the data.
 
-</br>
-
 ## Basic features
 
 - Sign up and login function , user can creat account and login as a member.
@@ -35,8 +33,6 @@ Chat:
 1. improve the frontend styling.
 2. show error messages.
 3. user can like the comments
-
-<br><br>
 
 ## Models
 
