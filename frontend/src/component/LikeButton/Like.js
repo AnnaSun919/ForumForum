@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-
 import AuthContext from "../../context/authcontext";
 
 function Like(props) {
@@ -57,7 +56,6 @@ function Like(props) {
       Like($topicId: ID!) {
         like(topicId:$topicId){
           _id
-
       }
     }`,
       variables: {

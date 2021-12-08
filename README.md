@@ -1,25 +1,26 @@
 # Forumforum
 
-A forum website for users to submit posts and have discussions.
+A forum website which is built with GraphQl and React.js, for users to submit posts and have discussions.
+Using GraphQL and Mongoose as backend to build the schema for storing forum data and React as frontend to attain and display the data.
 
-<br><br>
+</br>
 
-## MVP Scope and User stories
+## Basic features
 
-- signup - As a new user I want a sign button and page so that I can sign up.
-- login - As an exsisting user I want a login button and page so that I can sign in.
-- homepage - As a user I want home page were I can preview the posts they are used in.
-- profile - As a user I want a profile page
+- Sign up and login function , user can creat account and login as a member.
+- Homepage , user can see all the topics and comments on the first page of the web Application.
+- Like , user can like the topics they like
+- Comment, user can comment on the topics they want to make comments.
+
+## What I have Learn
+
+1. I have learned how to build the schemas and models with GraphQL, and understand the difference between GraphQL API and Restful API.
+2. To understand more about React hooks and have more practice on that.
+3. understand more about the Components of React.
 
 <br><br>
 
 ### Backlog
-
-List of of features outside of the MVP's scope
-
-Like:
-
-- Users like the posts which created by the other member
 
 Stalk:
 
@@ -60,3 +61,10 @@ Chat:
   creater,
   relatedTopic
 ```
+
+## Build with
+
+- GraphQL
+- React.js
+- Mongoose
+- Css
