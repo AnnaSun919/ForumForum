@@ -13,6 +13,16 @@ Using GraphQL and Mongoose as backend to build the schema for storing forum data
 - Like , user can like the topics they like
 - Comment, user can comment on the topics they want to make comments.
 
+### Backlog
+
+Stalk:
+
+- User can follow the posts which they are interested in
+
+Chat:
+
+- User can communicate with other through chat function
+
 ## What I have learned
 
 1. To build the schemas and models with GraphQL, and understand the difference between GraphQL API and Restful API.
@@ -28,21 +38,7 @@ Using GraphQL and Mongoose as backend to build the schema for storing forum data
 
 <br><br>
 
-### Backlog
-
-Stalk:
-
-- User can follow the posts which they are interested in
-
-Chat:
-
-- User can communicate with other through chat function
-
-<br><br>
-
 ## Models
-
-<br>
 
 ### User model:
 
