@@ -37,9 +37,6 @@ app.use(
       topics: () => {
         return topics;
       },
-      // comments: () => {
-      //   return comments;
-      // },
     },
     graphiql: true,
   })

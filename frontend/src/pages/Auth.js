@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import authContext from "../context/authcontext";
 import "./Auth.css";
 
@@ -14,8 +14,24 @@ function Auth(props) {
       return;
     }
 
-    let requestBody = {
-      query: `
+    let requestBody = {};
+    if (props.name === "Sign up") {
+      requestBody = {
+        query: `mutation CreateUser($username: String!, $password: String!) {
+      createUser(userInput: {username: $username, password: $password}) {
+        _id
+        username
+      }
+    }`,
+        variables: {
+          username: username,
+          password: password,
+        },
+      };
+    }
+    if (props.name == "Sign in") {
+      requestBody = {
+        query: `
           query Login ($username: String!, $password: String!){
             login (username: $username, password : $password){
             userId
@@ -23,28 +39,13 @@ function Auth(props) {
             tokenExpiration
           }
         }`,
-      variables: {
-        username: username,
-        password: password,
-      },
-    };
-
-    if (props.name != "Sign in") {
-      requestBody = {
-        query: `
-          mutation CreateUser ($username: String!, $ password: String!) {
-            createUser(userInput: {username: $username, password: $password}) {
-              _id
-              username
-            }
-          }
-          `,
         variables: {
           username: username, // right one const
           password: password,
         },
       };
     }
+
     fetch("http://localhost:5000/graphql", {
       method: "POST",
       body: JSON.stringify(requestBody),
@@ -54,12 +55,15 @@ function Auth(props) {
     })
       .then((res) => {
         if (res.status !== 200 && res.status !== 201) {
+          console.log(res);
           throw new Error("Failed");
         }
+
         return res.json();
       })
       .then((resData) => {
-        if (resData.data.login.token) {
+        console.log(resData);
+        if (resData.data.login) {
           context.login(resData.data.login.token, resData.data.login.userId);
         }
       })

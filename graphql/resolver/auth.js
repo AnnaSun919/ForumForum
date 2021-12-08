@@ -5,58 +5,65 @@ const { topics } = require("./merge");
 
 module.exports = {
   //function to create userAccount
-  createUser: (args) => {
-    const myPassRegex = new RegExp(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/
-    );
-
-    return User.findOne({ username: args.userInput.username })
-      .then((user) => {
-        if (user) {
-          throw new Error("User exists already.");
-        }
-        if (!myPassRegex.test(args.userInput.password)) {
-          throw new Error(
-            "Password needs to have 8 characters, a number and an Uppercase alphabet"
-          );
-        }
-
-        return bcrypt.hash(args.userInput.password, 12);
-      })
-      .then((hashedPassword) => {
-        const user = new User({
-          username: args.userInput.username,
-          password: hashedPassword,
-        });
-
-        return user.save();
-      })
-      .then((result) => {
-        //this one is from moongoo
-        return { ...result._doc, password: null, _id: result.id };
-      })
-      .catch((err) => {
-        throw err;
+  createUser: async (args) => {
+    try {
+      const myPassRegex = new RegExp(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/
+      );
+      const existing = await User.findOne({
+        username: args.userInput.username,
       });
+      if (existing) {
+        throw new Error("User exists already.");
+      }
+
+      if (!myPassRegex.test(args.userInput.password)) {
+        throw new Error(
+          "Password needs to have 8 characters, a number and an Uppercase alphabet"
+        );
+      }
+
+      const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
+
+      const user = new User({
+        username: args.userInput.username,
+        password: hashedPassword,
+      });
+
+      const result = await user.save();
+      //this one is from moongoo
+      return { ...result._doc, password: null, _id: result.id };
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   },
 
   //for login
-  login: async (args) => {
-    const user = await User.findOne({ username: args.username });
 
-    if (!user) {
-      throw new Error("User doesn't exist");
+  login: async (args) => {
+    try {
+      const user = await User.findOne({ username: args.username });
+
+      if (!user) {
+        throw new Error("stupid");
+      }
+
+      const isEqual = await bcrypt.compare(args.password, user.password);
+      if (!isEqual) {
+        throw new Error("Password is incorrect");
+      }
+      const token = jwt.sign(
+        { userId: user.id, username: user.username },
+        "somesupersecretkey",
+        { expiresIn: "1h" }
+      );
+
+      return { userId: user.id, token: token, tokenExpiration: 1 };
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
-    const isEqual = await bcrypt.compare(args.password, user.password);
-    if (!isEqual) {
-      throw new Error("Password is incorrect");
-    }
-    const token = jwt.sign(
-      { userId: user.id, username: user.username },
-      "somesupersecretkey",
-      { expiresIn: "1h" }
-    );
-    return { userId: user.id, token: token, tokenExpiration: 1 };
   },
   //for show all users
   users: async (args, req) => {
