@@ -24,7 +24,6 @@ module.exports = {
         throw new Error("User not found.");
       }
 
-      console.log(topic);
       creater.createdTopics.push(topic);
       await creater.save();
     } catch (err) {

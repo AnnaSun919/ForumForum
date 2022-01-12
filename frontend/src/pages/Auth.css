@@ -2,4 +2,12 @@
   width: 24rem;
   max-width: 80%;
   margin: 5rem auto;
+
+ 
 }
+
+
+.auth-form a{
+  color: black;
+}
+

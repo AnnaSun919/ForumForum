@@ -191,7 +191,6 @@ function Topic() {
         return res.json();
       })
       .then((resData) => {
-        console.log(resData);
         setShowSinglePost(resData.data.singlePost);
       })
       .catch((err) => {
@@ -236,8 +235,6 @@ function Topic() {
         throw err;
       });
   }
-
-  console.log(posts);
 
   return (
     <div>

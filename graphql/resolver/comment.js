@@ -11,7 +11,7 @@ module.exports = {
     }
     try {
       const post = await Topic.findById(args.topicId);
-      console.log(post);
+
       const comment = new Comment({
         //left is type, right is comment input
         topicComment: args.commentInput.topicComment,
@@ -47,7 +47,7 @@ module.exports = {
     }
     try {
       const post = await Topic.findById(args.topicId);
-      console.log(req.userId);
+
       post.like.push(req.userId);
       return post.save();
     } catch (err) {

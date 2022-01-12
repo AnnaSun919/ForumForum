@@ -15,8 +15,9 @@
 }
 
 .posts{
-  height:100vh;
-  width: 30%;
+  height:150vh;
+  width: 30vw;
+  
   border-right: 1px solid rgba(126, 124, 124, 0.432);
 }
 
@@ -44,13 +45,13 @@ border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 }
 
 .singlePost {
-  width: 120vh;
+  width: 70vw;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
     
   
 }
 .singlePost h1{
-  width: 120vh;
+  width: 70vw;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
 }
@@ -64,7 +65,7 @@ flex-direction: column;
 }
 
 .comment{
-  width: 120vh;
+  width: 70vw;
   min-height: 20vh;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 

@@ -32,7 +32,6 @@ function User() {
         return res.json();
       })
       .then((resData) => {
-        console.log(resData);
         setUsers(resData.data.users);
       })
       .catch((err) => {

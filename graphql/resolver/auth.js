@@ -34,7 +34,6 @@ module.exports = {
       //this one is from moongoo
       return { ...result._doc, password: null, _id: result.id };
     } catch (err) {
-      console.log(err);
       throw err;
     }
   },
@@ -61,7 +60,6 @@ module.exports = {
 
       return { userId: user.id, token: token, tokenExpiration: 1 };
     } catch (err) {
-      console.log(err);
       throw err;
     }
   },

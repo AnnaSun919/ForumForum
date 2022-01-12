@@ -4,6 +4,8 @@ import "./Auth.css";
 
 function Auth(props) {
   const context = useContext(authContext);
+  const [error, setError] = useState(null);
+  const [signUp, setSignup] = useState("signUp");
 
   function submitHandler(event) {
     event.preventDefault();
@@ -54,15 +56,19 @@ function Auth(props) {
       },
     })
       .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          console.log(res);
-          throw new Error("Failed");
-        }
+        // if (res.status !== 200 && res.status !== 201) {
+        // }
 
         return res.json();
       })
       .then((resData) => {
-        console.log(resData);
+        if (resData.errors) {
+          setError(
+            resData.errors.map((item) => {
+              return item.message;
+            })
+          );
+        }
         if (resData.data.login) {
           context.login(resData.data.login.token, resData.data.login.userId);
         }
@@ -71,22 +77,30 @@ function Auth(props) {
         console.log(err);
       });
   }
+  console.log(props.name);
 
   return (
     <div>
+      {props.name === "Sign up" ? (
+        <a href="./signin">Sign In</a>
+      ) : (
+        <a href="./signup">Sign up</a>
+      )}
+
       <form className="auth-form" onSubmit={submitHandler}>
         <div className="form-control">
-          <label htmlFor="username">username</label>
+          <label htmlFor="username">Username</label>
           <input name="username" />
         </div>
         <div className="form-control">
-          <label htmlFor="username">password</label>
+          <label htmlFor="username">Password</label>
           <input name="password" type="password" />
         </div>
 
         <div className="form-actions">
           <button type="submit">{props.name}</button>
         </div>
+        {error && <span>{error}</span>}
       </form>
     </div>
   );
