@@ -6,6 +6,8 @@ import Navbar from "../component/NavBar/Navbar";
 import NavItem from "../component/NavBar/NavItem";
 import DropdownMenu from "../component/NavBar/DropdownMenu";
 import Like from "../component/LikeButton/Like";
+import DropdownItem from "../component/DropdownMenu/DropdownItem";
+import Dropdown from "../component/DropdownMenu/DropDown";
 
 function Topic() {
   const context = useContext(AuthContext);
@@ -13,11 +15,18 @@ function Topic() {
   const [presentForm, setForm] = useState(null);
   const [selectedPostId, setselectedPostId] = useState(null);
   const [showSinglePost, setShowSinglePost] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [n, setn] = useState({ first: 0, second: 9 });
+  const [pageArray, setPageArray] = useState([]);
 
   //to loan all posts
   useEffect(() => {
     fetchTopic();
-  }, []);
+  }, [n]);
+
+  const forOpen = () => {
+    setOpen(!open);
+  };
 
   //function to show create post form
   function showForm() {
@@ -118,7 +127,8 @@ function Topic() {
   }
 
   //function to delete post
-  function deletepost() {
+  function deletepost(event) {
+    event.preventDefault();
     const postId = selectedPostId;
     let requestBody = {
       query: `mutation 
@@ -143,6 +153,8 @@ function Topic() {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Failed!");
         }
+        setForm(null);
+        fetchTopic();
         return res.json();
       })
       .catch((err) => {
@@ -192,6 +204,8 @@ function Topic() {
       })
       .then((resData) => {
         setShowSinglePost(resData.data.singlePost);
+        pageArr(resData.data.singlePost.userComments.length);
+        pageHelper(resData.data.singlePost.userComments);
       })
       .catch((err) => {
         console.log(err);
@@ -229,12 +243,36 @@ function Topic() {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Failed!");
         }
+        setForm(false);
+        fetchSinglepost(event, postId);
         return res.json();
       })
       .catch((err) => {
         throw err;
       });
   }
+
+  const page = [];
+
+  const pageArr = (elem) => {
+    if (elem > 9) {
+      const pageNo = Math.ceil((elem - 9) / 10) + 1;
+      console.log(pageNo);
+      for (let i = 1; i <= pageNo; i++) {
+        page.push(i);
+      }
+    }
+    setPageArray(page);
+  };
+
+  const pageHelper = (e, elem) => {
+    console.log(elem);
+    if (elem) {
+      setn({ first: elem * 10 - 10, second: elem * 10 - 1 });
+    }
+  };
+
+  console.log("show n " + pageArray);
 
   return (
     <div>
@@ -243,21 +281,26 @@ function Topic() {
       {presentForm === "create" && (
         <>
           <form className="addPost" onSubmit={sumbitPost}>
-            <label htmlFor="title">Title</label>
-            <input name="title" />
-
-            <label htmlFor="description">Description</label>
-            <input name="description" />
-            <button className="btn">Submit</button>
-            <button
-              className="btn"
-              type="button"
-              onClick={() => {
-                setForm(null);
-              }}
-            >
-              Cancel
-            </button>
+            <div className="form-control">
+              <label htmlFor="title">Title</label>
+              <input name="title" />
+            </div>
+            <div className="form-control">
+              <label htmlFor="description">Description</label>
+              <textarea className="description" name="description" />
+            </div>
+            <div className="form-actions">
+              <button className="btn">Submit</button>
+              <button
+                className="btn"
+                type="button"
+                onClick={() => {
+                  setForm(null);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </>
       )}
@@ -268,15 +311,17 @@ function Topic() {
               <DropdownMenu />
             </NavItem>
           </Navbar>
-          <button
-            className="btn"
-            id="createButton"
-            onClick={() => {
-              setForm("create");
-            }}
-          >
-            +
-          </button>
+          {context.userId && (
+            <button
+              className="btn"
+              id="createButton"
+              onClick={() => {
+                setForm("create");
+              }}
+            >
+              Add Post
+            </button>
+          )}
           {posts.map((post) => (
             <>
               <div className="items" key={post._id}>
@@ -289,17 +334,19 @@ function Topic() {
                 >
                   {post.title}
                 </span>
-                {context.userId === post.creater._id && (
-                  <button
-                    className="btn"
-                    onClick={() => {
-                      setselectedPostId(post._id);
-                      setForm("delete");
-                    }}
-                  >
-                    Delete
-                  </button>
-                )}
+                <div className="form-actions">
+                  {context.userId === post.creater._id && (
+                    <button
+                      className="btn"
+                      onClick={() => {
+                        setselectedPostId(post._id);
+                        setForm("delete");
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
               </div>
             </>
           ))}
@@ -307,36 +354,54 @@ function Topic() {
 
         <div className="singlePost">
           {showSinglePost && (
+            <DropdownItem onOpen={forOpen} open={open}>
+              <Dropdown
+                pageArray={pageArray}
+                onPage={pageHelper}
+                onOpen={forOpen}
+              />
+            </DropdownItem>
+          )}
+
+          {showSinglePost && (
             <div>
-              <button
-                className="btn"
-                onClick={() => {
-                  setForm("comment");
-                  setselectedPostId(showSinglePost._id);
-                }}
-              >
-                Comment
-              </button>
+              {context.userId && (
+                <button
+                  className="btn"
+                  onClick={() => {
+                    setForm("comment");
+                    setselectedPostId(showSinglePost._id);
+                  }}
+                >
+                  Comment
+                </button>
+              )}
               <h1>{showSinglePost.title}</h1>
-              <div className="origin">
-                <span className="username">
-                  #1 {showSinglePost.creater.username}
-                </span>
-                <span>{showSinglePost.description}</span>
-                <br />
-                <div className="likeButton">
-                  <Like postId={showSinglePost._id} />
-                </div>
-              </div>
-              {showSinglePost.userComments.map((usercomment, index) => (
-                <div className="comment">
+              {n.first === 0 ? (
+                <div className="origin">
                   <span className="username">
-                    # {+index + 2} {usercomment.creater.username}
+                    #1 {showSinglePost.creater.username}
                   </span>
+                  <span>{showSinglePost.description}</span>
                   <br />
-                  {usercomment.topicComment}
+                  <div className="likeButton">
+                    <Like postId={showSinglePost._id} />
+                  </div>
                 </div>
-              ))}
+              ) : (
+                ""
+              )}
+              {showSinglePost.userComments
+                .slice(n.first, n.second)
+                .map((usercomment, index) => (
+                  <div className="comment">
+                    <span className="username">
+                      # {+index + 2} {usercomment.creater.username}
+                    </span>
+                    <br />
+                    <span>{usercomment.topicComment}</span>
+                  </div>
+                ))}
             </div>
           )}
         </div>
@@ -344,18 +409,31 @@ function Topic() {
 
       {presentForm === "comment" && (
         <form className="addPost" onSubmit={comment}>
-          <label htmlFor="comment">Comment</label>
-          <input name="comment"></input>
-          <button className="btn">Yes</button>
+          <div className="form-control">
+            <label htmlFor="comment">Comment</label>
+            <textarea name="comment"></textarea>
+          </div>
+          <div className="form-actions">
+            <button className="btn">Add Comment</button>
+          </div>
         </form>
       )}
 
       {presentForm === "delete" && (
         <form className="addPost">
-          Are you sure that you want to Delete this post?
-          <button className="btn" onClick={deletepost}>
-            Yes
-          </button>
+          <div className="form-control">
+            Are you sure that you want to Delete this post?
+          </div>
+          <div className="form-actions">
+            <button
+              className="btn"
+              onClick={(event) => {
+                deletepost(event);
+              }}
+            >
+              Yes
+            </button>
+          </div>
         </form>
       )}
     </div>

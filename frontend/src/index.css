@@ -10,7 +10,7 @@ body {
 
   --bg:  #75ace4;
   --bg-accent: #cadcf7;
-  --text-color: #353638;
+  --text-color: #dadce1;
   --nav-size: 60px;
   --border: 1px solid #d4e5f5;
   --border-radius: 8px;
@@ -166,7 +166,8 @@ a {
 }
 
 .form-actions button,
-.btn {
+.btn,
+#btn {
   background: hsl(189, 73%, 65%);
   font: inherit;
   border: 1px solid hsl(189, 73%, 65%);

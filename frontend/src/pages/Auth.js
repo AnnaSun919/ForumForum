@@ -99,6 +99,16 @@ function Auth(props) {
 
         <div className="form-actions">
           <button type="submit">{props.name}</button>
+
+          {props.name === "Sign up" ? (
+            <a id="btn" href="./signin">
+              Switch to Sign In
+            </a>
+          ) : (
+            <a id="btn" href="./signup">
+              Switch to Sign up
+            </a>
+          )}
         </div>
         {error && <span>{error}</span>}
       </form>

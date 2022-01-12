@@ -10,7 +10,7 @@ function Like(props) {
 
   useEffect(() => {
     fetchLike();
-  }, []);
+  }, [postId, like]);
 
   // const [dislike, updateDislike] = useState(0);
 

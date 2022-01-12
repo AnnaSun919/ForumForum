@@ -1,12 +1,19 @@
 
 .addPost{
-  width: 90%;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
   background-color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   position: fixed;
-  top: 20vh;
-  left: 5%;
+  top: 10vh;
+  left: 25%;
+  padding: 20px;
   z-index: 100;
+}
+
+.addPost .description{
+  height: 50vh;
 }
 
 .page{
@@ -15,16 +22,16 @@
 }
 
 .posts{
-  height:150vh;
+ 
   width: 30vw;
   
-  border-right: 1px solid rgba(126, 124, 124, 0.432);
+
 }
 
 .items{
 display: flex;
 flex-direction: column;
-margin: 10px;
+/* margin: 10px; */
 border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
 }
@@ -46,20 +53,31 @@ border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
 .singlePost {
   width: 70vw;
-  border-bottom: 1px solid rgba(126, 124, 124, 0.432);
+  min-height: 120vh;
+  border-left: 1px solid rgba(126, 124, 124, 0.432);
+  padding-top: 10px;
     
   
 }
 .singlePost h1{
+
+  margin: 0;
+  padding-left: 10px;
   width: 70vw;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
+
+}
+
+.singlePost span{
+
+  padding-left: 10px;
 
 }
 
 .origin{
 display: flex;
 flex-direction: column;
-  width: 120vh;
+  width: 70vw;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
   min-height: 30vh;
 }
