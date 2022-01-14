@@ -69,6 +69,7 @@ module.exports = {
         return {
           ...topic._doc,
           _id: topic.id,
+          page: Math.ceil(topic.userComments.length / 10),
           creater: user.bind(this, topic._doc.creater),
           userComments: comment.bind(this, topic._doc.userComments),
         };

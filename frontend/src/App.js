@@ -4,24 +4,33 @@ import AuthPage from "./pages/Auth";
 import Home from "./pages/Topic";
 import Users from "./pages/User";
 import Authcontext from "./context/authcontext";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 function App() {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState(null);
+  const context = useContext(Authcontext);
 
   function login(token, userId, userName, TokenExpired) {
     setToken(token);
     setUserId(userId);
     setUserName(userName);
+
+    const user = { username: userName, userid: userId, token: token };
+    localStorage.setItem("user", JSON.stringify(user));
   }
 
   function logout() {
+    localStorage.removeItem("user");
+    localStorage.clear();
+
     setToken(null);
     setUserId(null);
     setUserName(null);
   }
+
+  console.log(context);
 
   return (
     <BrowserRouter>

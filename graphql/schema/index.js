@@ -18,6 +18,7 @@ module.exports = buildSchema(`
   type Topic {
     _id:ID!
     title:String!
+    page:Int!
     description:String!
     creater: User!
     userComments: [Comment]!

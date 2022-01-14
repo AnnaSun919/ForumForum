@@ -18,11 +18,20 @@ function Topic() {
   const [open, setOpen] = useState(false);
   const [n, setn] = useState({ first: 0, second: 10 });
   const [pageArray, setPageArray] = useState([]);
-
+  const [user, setUser] = useState(null);
   //to loan all posts
   useEffect(() => {
+    console.log("load");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+      context.login(user.token, user.userid, user.username);
+    } else {
+      console.log("reload");
+    }
+
     fetchTopic();
-  }, [n]);
+  }, [context]);
 
   const forOpen = () => {
     setOpen(!open);
@@ -92,6 +101,7 @@ function Topic() {
       posts {
         _id
         title 
+        page
         creater{
           username
           _id
@@ -118,6 +128,7 @@ function Topic() {
         return res.json();
       })
       .then((resData) => {
+        console.log(resData.data.posts);
         const posts = resData.data.posts;
         setContent(posts);
       })
@@ -165,6 +176,7 @@ function Topic() {
   //function to fetch single post
   function fetchSinglepost(event, postId) {
     event.preventDefault();
+    setn({ first: 0, second: 10 });
     const requestBody = {
       query: `query 
       Singlpost($topicId: ID!) {
@@ -256,11 +268,14 @@ function Topic() {
 
   const pageArr = (elem) => {
     if (elem > 9) {
-      const pageNo = Math.ceil((elem - 9) / 10) + 1;
-      console.log(pageNo);
+      console.log("bigger");
+      const pageNo = Math.ceil(elem / 10);
+
       for (let i = 1; i <= pageNo; i++) {
         page.push(i);
       }
+    } else {
+      page.push(1);
     }
     setPageArray(page);
   };
@@ -270,8 +285,6 @@ function Topic() {
       setn({ first: elem * 10 - 10, second: elem * 10 });
     }
   };
-
-  console.log("show n " + n.first);
 
   return (
     <div>
@@ -330,7 +343,13 @@ function Topic() {
               <div className="items" key={post._id}>
                 <span className="username">
                   {post.creater.username} ❤️{post.like.length}
+                  {post.page == 1 || post.page == 0 ? (
+                    <span> 1 Page</span>
+                  ) : (
+                    <span> {post.page} Pages</span>
+                  )}
                 </span>
+
                 <span
                   className="title"
                   onClick={(event) => fetchSinglepost(event, post._id)}
@@ -417,7 +436,11 @@ function Topic() {
         <form className="addPost" onSubmit={comment}>
           <div className="form-control">
             <label htmlFor="comment">Comment</label>
-            <textarea maxlength="1000" name="comment"></textarea>
+            <textarea
+              maxlength="1000"
+              name="comment"
+              className="description"
+            ></textarea>
           </div>
           <div className="form-actions">
             <button className="btn">Add Comment</button>
