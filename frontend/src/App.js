@@ -9,15 +9,18 @@ import React, { useState } from "react";
 function App() {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState(null);
 
-  function login(token, userId, TokenExpired) {
+  function login(token, userId, userName, TokenExpired) {
     setToken(token);
     setUserId(userId);
+    setUserName(userName);
   }
 
   function logout() {
     setToken(null);
     setUserId(null);
+    setUserName(null);
   }
 
   return (
@@ -26,6 +29,7 @@ function App() {
         value={{
           token: token,
           userId: userId,
+          userName: userName,
           login: login,
           logout: logout,
         }}

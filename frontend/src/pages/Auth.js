@@ -5,7 +5,6 @@ import "./Auth.css";
 function Auth(props) {
   const context = useContext(authContext);
   const [error, setError] = useState(null);
-  const [signUp, setSignup] = useState("signUp");
 
   function submitHandler(event) {
     event.preventDefault();
@@ -38,6 +37,7 @@ function Auth(props) {
             login (username: $username, password : $password){
             userId
             token
+            userName
             tokenExpiration
           }
         }`,
@@ -70,14 +70,17 @@ function Auth(props) {
           );
         }
         if (resData.data.login) {
-          context.login(resData.data.login.token, resData.data.login.userId);
+          context.login(
+            resData.data.login.token,
+            resData.data.login.userId,
+            resData.data.login.userName
+          );
         }
       })
       .catch((err) => {
         console.log(err);
       });
   }
-  console.log(props.name);
 
   return (
     <div>

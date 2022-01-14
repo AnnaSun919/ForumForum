@@ -45,7 +45,7 @@ module.exports = {
       const user = await User.findOne({ username: args.username });
 
       if (!user) {
-        throw new Error("stupid");
+        throw new Error("Please check username");
       }
 
       const isEqual = await bcrypt.compare(args.password, user.password);
@@ -58,7 +58,12 @@ module.exports = {
         { expiresIn: "1h" }
       );
 
-      return { userId: user.id, token: token, tokenExpiration: 1 };
+      return {
+        userName: user.username,
+        userId: user.id,
+        token: token,
+        tokenExpiration: 1,
+      };
     } catch (err) {
       throw err;
     }

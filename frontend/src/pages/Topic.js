@@ -16,7 +16,7 @@ function Topic() {
   const [selectedPostId, setselectedPostId] = useState(null);
   const [showSinglePost, setShowSinglePost] = useState(null);
   const [open, setOpen] = useState(false);
-  const [n, setn] = useState({ first: 0, second: 9 });
+  const [n, setn] = useState({ first: 0, second: 10 });
   const [pageArray, setPageArray] = useState([]);
 
   //to loan all posts
@@ -266,13 +266,12 @@ function Topic() {
   };
 
   const pageHelper = (e, elem) => {
-    console.log(elem);
     if (elem) {
-      setn({ first: elem * 10 - 10, second: elem * 10 - 1 });
+      setn({ first: elem * 10 - 10, second: elem * 10 });
     }
   };
 
-  console.log("show n " + pageArray);
+  console.log("show n " + n.first);
 
   return (
     <div>
@@ -283,11 +282,15 @@ function Topic() {
           <form className="addPost" onSubmit={sumbitPost}>
             <div className="form-control">
               <label htmlFor="title">Title</label>
-              <input name="title" />
+              <input maxlength="80" name="title" />
             </div>
             <div className="form-control">
               <label htmlFor="description">Description</label>
-              <textarea className="description" name="description" />
+              <textarea
+                maxlength="1000"
+                className="description"
+                name="description"
+              />
             </div>
             <div className="form-actions">
               <button className="btn">Submit</button>
@@ -376,13 +379,16 @@ function Topic() {
                   Comment
                 </button>
               )}
-              <h1>{showSinglePost.title}</h1>
+              <div className="topictitle">
+                <h1>{showSinglePost.title}</h1>
+              </div>
+
               {n.first === 0 ? (
                 <div className="origin">
                   <span className="username">
-                    #1 {showSinglePost.creater.username}
+                    {showSinglePost.creater.username}
                   </span>
-                  <span>{showSinglePost.description}</span>
+                  <span className="content">{showSinglePost.description}</span>
                   <br />
                   <div className="likeButton">
                     <Like postId={showSinglePost._id} />
@@ -396,10 +402,10 @@ function Topic() {
                 .map((usercomment, index) => (
                   <div className="comment">
                     <span className="username">
-                      # {+index + 2} {usercomment.creater.username}
+                      # {n.first + index + 1} {usercomment.creater.username}
                     </span>
                     <br />
-                    <span>{usercomment.topicComment}</span>
+                    <span className="content">{usercomment.topicComment}</span>
                   </div>
                 ))}
             </div>
@@ -411,7 +417,7 @@ function Topic() {
         <form className="addPost" onSubmit={comment}>
           <div className="form-control">
             <label htmlFor="comment">Comment</label>
-            <textarea name="comment"></textarea>
+            <textarea maxlength="1000" name="comment"></textarea>
           </div>
           <div className="form-actions">
             <button className="btn">Add Comment</button>

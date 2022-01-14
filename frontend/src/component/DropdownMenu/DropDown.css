@@ -1,0 +1,31 @@
+
+
+.drop {
+top: 40px;
+margin-left: -10px;
+
+position: absolute;
+border-radius: 5px;
+background-color: white;
+border: 0.5px solid rgb(133, 133, 133);
+width: 80px;
+height: auto;
+max-height: 30vh;
+overflow-y: scroll;
+overflow-x: hidden;
+cursor:pointer;
+text-align: center;
+padding: 2px;
+
+
+}
+
+
+
+.menu .item:hover{
+
+
+
+  background:hsla(0, 0%, 78%, 0.575);
+
+}

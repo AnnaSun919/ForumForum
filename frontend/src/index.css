@@ -1,7 +1,13 @@
 
 body {
   margin: 0;
-  font-family: roboto;
+  /* font-family: roboto; */
+
+  font-family:   sans-serif !important;
+ 
+
+  
+  
 
 
 }
@@ -67,6 +73,7 @@ a {
   align-items: center;
   justify-content: center;
   transition: filter 300ms;
+  cursor:pointer;
 }
 
 .icon-button:hover{
@@ -84,10 +91,12 @@ a {
   padding: 1rem;
   overflow: hidden;
   transition: height var(--speed) ease;
+  cursor:pointer;
 }
 
 .menu {
   width: 100%;
+
 }
 
 .menu-item {
@@ -97,6 +106,7 @@ a {
   border-radius: var(--border-radius);
   transition: background var(--speed);
   padding: 0.5rem;
+
 }
 
 

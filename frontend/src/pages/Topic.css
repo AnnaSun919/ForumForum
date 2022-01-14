@@ -14,6 +14,7 @@
 
 .addPost .description{
   height: 50vh;
+  
 }
 
 .page{
@@ -31,7 +32,10 @@
 .items{
 display: flex;
 flex-direction: column;
-/* margin: 10px; */
+height: auto;
+margin: 10px;
+
+
 border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
 }
@@ -41,8 +45,20 @@ border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 }
 
 .title{
-  font-size: 28px;
+  /* display: flex;
+
+  */
+
+
+  display:block;
+  width:95%;
+  word-wrap:break-word;
+  font-size: 1.5rem;
   cursor: pointer;
+  padding: 10px;
+
+
+  
   
 }
 
@@ -59,18 +75,24 @@ border-bottom: 1px solid rgba(126, 124, 124, 0.432);
     
   
 }
-.singlePost h1{
+.singlePost .topictitle{
 
-  margin: 0;
-  padding-left: 10px;
+
   width: 70vw;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
 }
 
-.singlePost span{
+.topictitle h1{
+  display:block;
+padding:10px;
+  word-wrap:break-word;
+}
 
-  padding-left: 10px;
+.content{
+  display: block;
+margin: 10px;
+
 
 }
 
