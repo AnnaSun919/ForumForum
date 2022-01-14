@@ -84,7 +84,9 @@ overflow-x: hidden;
 .singlePost .topictitle{
 
 
-  width: 70vw;
+  width:95%;
+  margin: 10px;
+
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
 
 }
@@ -106,15 +108,19 @@ margin-top: 5px;
 .origin{
 display: flex;
 flex-direction: column;
-  width: 70vw;
-  padding: 5px;
+
+  padding: 10px;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);
   min-height: 30vh;
   margin:5px;
+  display:block;
+  width:95%;
+  word-wrap:break-word;
+
 }
 
 .comment{
-  width: 70vw;
+  width:95%;
   min-height: 20vh;
 padding: 5px;
   border-bottom: 1px solid rgba(126, 124, 124, 0.432);

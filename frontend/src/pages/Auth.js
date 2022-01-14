@@ -30,7 +30,7 @@ function Auth(props) {
         },
       };
     }
-    if (props.name == "Sign in") {
+    if (props.name === "Sign in") {
       requestBody = {
         query: `
           query Login ($username: String!, $password: String!){
@@ -84,12 +84,6 @@ function Auth(props) {
 
   return (
     <div>
-      {props.name === "Sign up" ? (
-        <a href="./signin">Sign In</a>
-      ) : (
-        <a href="./signup">Sign up</a>
-      )}
-
       <form className="auth-form" onSubmit={submitHandler}>
         <div className="form-control">
           <label htmlFor="username">Username</label>

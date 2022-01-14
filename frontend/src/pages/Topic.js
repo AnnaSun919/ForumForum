@@ -18,7 +18,7 @@ function Topic() {
   const [open, setOpen] = useState(false);
   const [n, setn] = useState({ first: 0, second: 10 });
   const [pageArray, setPageArray] = useState([]);
-  const [user, setUser] = useState(null);
+
   //to loan all posts
   useEffect(() => {
     console.log("load");
@@ -343,7 +343,7 @@ function Topic() {
               <div className="items" key={post._id}>
                 <span className="username">
                   {post.creater.username} ❤️{post.like.length}
-                  {post.page == 1 || post.page == 0 ? (
+                  {post.page === 1 || post.page === 0 ? (
                     <span> 1 Page</span>
                   ) : (
                     <span> {post.page} Pages</span>

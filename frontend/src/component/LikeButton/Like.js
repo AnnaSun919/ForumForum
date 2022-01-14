@@ -15,9 +15,9 @@ function Like(props) {
   // const [dislike, updateDislike] = useState(0);
 
   const clickLike = () => {
-    if (context) {
-      updateLike(like + 1);
-    }
+    // if (context) {
+    //   updateLike(like + 1);
+    // }
 
     let requestBody = {
       query: `
@@ -97,7 +97,7 @@ function Like(props) {
             alert("Please sign in");
           }}
         >
-          {like} 🤍{" "}
+          {like} 🤍
         </button>
       )}
     </div>
