@@ -1,7 +1,6 @@
 # Forumforum
 
-A forum website which is built with GraphQl and React.js, for users to submit posts and have discussions.
-</br>
+A forum website which is built with GraphQl and React.js for users to submit posts and have discussions.  
 Using GraphQL and Mongoose as backend to build the schema for storing forum data and React as frontend to attain and display the data.
 
 ## Basic features
@@ -21,18 +20,17 @@ Chat:
 
 - User can communicate with other through chat function
 
-## What I have learned
+## Goal
 
-1. To build the schemas and models with GraphQL, and understand the difference between GraphQL API and Restful API.
-2. To understand the flexibility by using function to link the information together instead of populating the information only.
-3. To understand more about React hooks and have more practice on that.
-4. To understand more about the Components of React.
+- To build the schemas and models with GraphQL, and understand the difference between GraphQL API and Restful API.
+- To understand the flexibility by using function to link the information together instead of populating the information only.
+- To understand more about React hooks and have more practice on that.
+- To understand more about the Components of React.
 
 ## What I want to improve
 
-1. improve the frontend styling.
-2. show error messages.
-3. user can like the comments
+- user can like the comments
+- user can view their profile, what they have commented and what are their comments 
 
 ## Models
 
