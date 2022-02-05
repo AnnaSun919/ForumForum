@@ -1,7 +1,7 @@
 # Forumforum
 
-Forumfoorum is a internet forum where the user can submit posts and have comments on different topics. The web application is built with GraphQl and React.js. 
-For backend part, GraphQL and Mongoose are used to build the schema for storing forum data. For Frontend, React is used to attain and display the data.
+Forumforum is an internet forum where the user can submit posts and have comments on different topics.  
+The web application is built with GraphQl and React.js. For backend part, GraphQL and Mongoose are used to build the schema for storing forum data. For Frontend, React is used to attain and display the data.
 
 ## Basic features
 
